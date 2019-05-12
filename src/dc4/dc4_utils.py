@@ -29,3 +29,10 @@ def play_game_player_player():
         except PlayerQuitGame:
             break
     game.print_result()
+    
+def play_game_agent_agent():
+    game = Game()
+    agent1 = UniformRandomAlphaAgent()
+    while not game.is_over():
+        agent1.make_move(game)
+    return game

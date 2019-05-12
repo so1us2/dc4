@@ -89,6 +89,8 @@ class Game(EndConditionChecker):
 
     def print_result(self):
         over, winner = self.perform_all_checks()
+        print("Final board:")
+        print(str(self.board))
         if not over:
             print("That's strange.  The game is not over yet.")
         elif winner == EMPTY:
