@@ -1,4 +1,4 @@
-from dc4.game import Game
+from dc4.game import Game, PlayerQuitGame
 from dc4.agent import Agent
 
 def play_game_player_agent(player_goes_first=True):
@@ -16,5 +16,8 @@ def play_game_player_agent(player_goes_first=True):
 def play_game_player_player():
     game = Game()
     while not game.is_over():
-        game.prompt_for_player_move()
+        try:
+            game.prompt_for_player_move()
+        except PlayerQuitGame:
+            break
     game.print_result()

@@ -2,6 +2,9 @@ from dc4.board import Board
 from dc4.move import Move
 from dc4 import RED, BLACK, EMPTY, BOARD_WIDTH, BOARD_HEIGHT
 
+class PlayerQuitGame(Exception):
+    pass
+
 class EndConditionChecker:
     def is_over(self):
         over, result = self.perform_all_checks()
@@ -91,7 +94,7 @@ class Game(EndConditionChecker):
         elif winner == EMPTY:
             print("It's a draw!")
         else:
-            print(winner + " WINS!")
+            print(winner + " WINS!\n")
 
     def make_move(self, move):
         row = self.get_first_empty_in_col(move.col)
@@ -121,13 +124,14 @@ class Game(EndConditionChecker):
         print(str(self))
 
         while not self.is_legal(move):
+            player_input = input(self.whose_turn() + ", make a legal move.").lower()
+            if player_input == "exit" or player_input == "quit":
+                raise PlayerQuitGame()
+                
             try:
-                move = Move(int(input(self.whose_turn() + ", make a legal move.")))
+                move = Move(int(player_input))
             except:
-                print("Illegal move.  Enter a number for a non-full column.")
-            if self.is_legal(move):
-                break
-            else:
-                print("Illegal move.  Enter a number for a non-full column.")
-
+                print("Illegal move.  Enter a number for a non-full column.\n")
+                continue
+                
         self.make_move(move)
