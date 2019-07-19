@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand:300');
+
+html, body { height: 100%; }
+
+.DC4Page {
+  border: 5px solid #000000;
+  position: absolute;
+  width: 647px;
+  height: 400px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.root {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+
+.Root {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+
+.DC4App {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Quicksand', sans-serif;
+  border: 5px solid #000000;
+  background-repeat: repeat;
+  position: fixed;
+}

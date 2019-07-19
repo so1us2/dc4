@@ -1,0 +1,6 @@
+/**/node_modules
+/VenvDjango
+**/__pycache__/**
+project/db.sqlite3
+*.pyc
+**/.idea/**
