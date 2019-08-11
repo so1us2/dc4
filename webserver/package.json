@@ -2,7 +2,7 @@
   "name": "dc4-webserver",
   "version": "0.0.0",
   "scripts": {
-    "server": "node ./server/server.js",
+    "server": "node -r esm ./server/server.js",
     "client": "webpack-dev-server"
   },
   "author": "mazerakham",
@@ -31,6 +31,7 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.6.1",
+    "esm": "^3.2.25",
     "file-loader": "^4.1.0",
     "style-loader": "^0.23.1",
     "url-loader": "^2.1.0"
