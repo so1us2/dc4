@@ -9,8 +9,12 @@ module.exports = {
     path.resolve(__dirname, 'client', 'index.jsx')
   ],
   resolve: {
+    alias: {
+      Webserver: path.resolve(__dirname)
+    },
     modules: [path.resolve(__dirname, 'node_modules')],
-    extensions: ['*', '.js', '.jsx']
+    extensions: ['*', '.js', '.jsx'],
+
   },
   module: {
     rules: [
