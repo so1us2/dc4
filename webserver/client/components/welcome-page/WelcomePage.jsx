@@ -10,7 +10,7 @@ export default class WelcomePage extends Component {
     return (
       <div className="DC4Page WelcomePage">
         <WelcomeHeader />
-        <ButtonPanel playHumanHandler={this.props.playHumanHandler} playBotHandler={this.props.playBotHandler}/>
+        <ButtonPanel handlePlayHuman={this.props.handlePlayHuman} handlePlayBot={this.props.handlePlayBot}/>
       </div>
     )
   }

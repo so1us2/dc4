@@ -7,8 +7,8 @@ export default class ButtonPanel extends Component {
   render() {
     return (
       <div className="ButtonPanel">
-        <PlayHumanButton onClick={this.props.playHumanHandler}/>
-        <PlayBotButton onClick={this.props.playBotHandler}/>
+        <PlayHumanButton onClick={this.props.handlePlayHuman}/>
+        <PlayBotButton onClick={this.props.handlePlayBot}/>
       </div>
     )
   }

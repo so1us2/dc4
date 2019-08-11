@@ -16,6 +16,7 @@ export default class PlayHumanPage extends Component {
     return (
       <div className="DC4Page PlayHumanPage">
         <h1>Play human page!</h1>
+        <h2>This will be a real game soon!</h2>
         <button onClick={this.doAdditionalFunStuff()}>Return to home screen.</button>
       </div>
     )

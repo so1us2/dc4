@@ -13,22 +13,28 @@ export default class DC4App extends Component {
     this.state = { currentPage: 'welcome' };
   }
 
-  playHumanHandler() {
+  handlePlayHuman() {
     return () => {
       console.log("Play human handler in DC4 app.");
       this.setState({ currentPage: 'searchforopponent' });
     }
-
   };
 
-  playBotHandler() {
+  handlePlayBot() {
     return () => {
       console.log("Play bot handler in DC4 app.");
       this.setState({ currentPage: 'playbot' });
     }
   };
 
-  returnToHomeScreenHandler() {
+  handleOpponentFound() {
+    return () => {
+      console.log("Opponent found handler from DC4App.");
+      this.setState({ currentPage: 'playhuman' });
+    }
+  }
+
+  handleReturnToHomeScreen() {
     return () => {
       console.log("Return to home screen.");
       this.setState({ currentPage: 'welcome' });
@@ -39,19 +45,19 @@ export default class DC4App extends Component {
     switch (this.state.currentPage) {
       case 'welcome':
         return (
-          <WelcomePage playHumanHandler={this.playHumanHandler()} playBotHandler={this.playBotHandler()}/>
+          <WelcomePage handlePlayHuman={this.handlePlayHuman()} handlePlayBot={this.handlePlayBot()}/>
         );
       case 'playhuman':
         return (
-          <PlayHumanPage returnToHomeScreenHandler={this.returnToHomeScreenHandler()} />
+          <PlayHumanPage handleReturnToHomeScreen={this.handleReturnToHomeScreen()} />
         );
       case 'searchforopponent':
         return (
-          <OpponentSearchPage returnToHomeScreenHandler={this.returnToHomeScreenHandler()} />
+          <OpponentSearchPage handleReturnToHomeScreen={this.handleReturnToHomeScreen()} />
         );
       case 'playbot':
         return (
-          <PlayBotPage returnToHomeScreenHandler={this.returnToHomeScreenHandler()} />
+          <PlayBotPage handleReturnToHomeScreen={this.handleReturnToHomeScreen()} />
         );
       default:
         throw new Exception("Unknown current page!  Critical Error!");
