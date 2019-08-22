@@ -1,14 +1,12 @@
 import ActiveSearcherDirectory from './ActiveSearcherDirectory';
 
 export default class MatchMaker {
-  setupHandlers() {
-    return (client) => {
-      console.log('client connecting: ', client.id);
-      client.on('joinopponentsearch', this.handleJoinOpponentSearch(client));
-      client.on('cancelopponentsearch', this.handleCancelOpponentSearch(client));
-      client.on('disconnect', () => {console.log('client disconnect: ', client.id);});
-      client.on('error', () => {console.log('client error: ', client.id); });
-    };
+  setupHandlers(client) {
+    console.log('client connecting: ', client.id);
+    client.on('joinopponentsearch', this.handleJoinOpponentSearch(client));
+    client.on('cancelopponentsearch', this.handleCancelOpponentSearch(client));
+    client.on('disconnect', () => {console.log('client disconnect: ', client.id);});
+    client.on('error', () => {console.log('client error: ', client.id); });
   }
 
   handleJoinOpponentSearch(client) {
@@ -47,12 +45,5 @@ export default class MatchMaker {
 
   constructor() {
     this.activeSearcherDirectory = new ActiveSearcherDirectory();
-    this.server = require('http').createServer();
-    this.io = require('socket.io')(this.server);
-    this.io.on('connection', this.setupHandlers());
-    this.server.listen(3000, function(err) {
-      if (err) throw err;
-      console.log('listening on port 3000');
-    })
   }
 }
