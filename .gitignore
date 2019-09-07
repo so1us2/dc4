@@ -4,3 +4,4 @@
 project/db.sqlite3
 *.pyc
 **/.idea/**
+/build/
