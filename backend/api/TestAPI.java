@@ -7,7 +7,6 @@ public class TestAPI extends Controller {
   @Override
   public void init() {
     throw new UnsupportedOperationException();
-
   }
 
 }
