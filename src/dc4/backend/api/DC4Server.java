@@ -1,7 +1,6 @@
-package dc4;
+package dc4.backend.api;
 
 import bowser.WebServer;
-import dc4.web.home.HomePage;
 import ox.Log;
 
 public class DC4Server {
@@ -11,7 +10,7 @@ public class DC4Server {
 
   public void start() {
     Log.debug("Starting the server boys and girls!");
-    WebServer webServer = new WebServer("DC4", PORT, true).controller(new HomePage()).start();
+    WebServer webServer = new WebServer("DC4", PORT, true).controller(new TestAPI()).start();
     Log.debug("Server running on port %d", PORT);
   }
 
