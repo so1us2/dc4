@@ -1,4 +1,4 @@
-package dc4.backend.api;
+package backend.api;
 
 import bowser.WebServer;
 import ox.Log;
