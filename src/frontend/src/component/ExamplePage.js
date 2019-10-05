@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
-import classes from './App.css';
 
-
-
-class App extends Component {
-
-  socket = new WebSocket('ws://127.0.0.1:39142');
+export default class ExamplePage extends Component {
 
   componentDidMount() {
     this.sendRequest();
-
-    this.socket.onmessage = function(event){
+    this.props.socket.onmessage = function(event){
       console.log('Received data: ' + event.data);
     }
-    this.socket.onclose = function() {
+    this.props.socket.onclose = function() {
       console.log('Lost connection!');
     }
   }
@@ -34,12 +28,12 @@ class App extends Component {
 
   sendWebsocketRequest = () => {
     console.log("Sending a websocket request.");
-    this.socket.send(JSON.stringify({'a': 43, 'b': "69!"}));
+    this.props.socket.send(JSON.stringify({'a': 43, 'b': "69!"}));
   }
 
   render () {
     return (
-      <div className={classes.App}>
+      <div className="ExamplePage">
         <h1>Welcome to DC4.</h1>
         <button onClick = {this.sendRequest}>Send a request!</button>
         <button onClick = {this.sendWebsocketRequest}>Send a websocket request!</button>
@@ -47,5 +41,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;
