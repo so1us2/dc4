@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
 
+import classes from './PlayHumanPage.css';
+
 export default class PlayHumanPage extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {searching: false};
+    this.state = {searching: false, error: false};
   }
 
   search = () => {
     console.log("Searching for an opponent!");
-    this.setState({searching: true});
-    console.log(this.state.name);
+    const name = this.state.name;
+    if (!name) {
+      this.setState({error:true});
+      return;
+    }
+    this.setState({searching: true, error:false});
+    console.log("Sending socket request with name: " + this.state.name);
     this.props.socket.send(JSON.stringify({command: "search", name: this.state.name}));
   }
 
@@ -34,13 +41,17 @@ export default class PlayHumanPage extends Component {
 
   render () {
     return (
-      <div className="PlayHumanPage">
+      <div className={classes.PlayHumanPage}>
         <h1>Play Human Page!</h1>
+        <br/>
         <div>Enter your name.</div>
+        <br/>
         <input
           type="text"
+          error={this.state.error ? "true" : undefined}
           onChange={(e) => this.setState({name: e.target.value})}
-        /><br/>
+        />
+        <br/>
         {this.getButtonPanel()}
       </div>
     );

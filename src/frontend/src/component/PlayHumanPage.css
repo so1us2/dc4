@@ -1,0 +1,11 @@
+.PlayHumanPage input {
+  margin-bottom: 10px;
+}
+
+.PlayHumanPage input[error] {
+  border-color: rgb(255,0,0,1);
+}
+
+.PlayHumanPage button {
+  margin-right: 8px;
+}

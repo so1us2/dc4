@@ -1,5 +1,7 @@
 package backend.api;
 
+import backend.websockets.DC4WebSockets;
+import backend.websockets.MatchmakingListener;
 import bowser.WebServer;
 import bowser.websocket.WebSocketServer;
 import ox.Json;
@@ -15,6 +17,8 @@ public class DC4Server {
 
     new WebServer("DC4", PORT, true).controller(new TestAPI()).start();
     Log.debug("Server running on port %d", PORT);
+
+    new DC4WebSockets().listener(new MatchmakingListener()).start();
 
     new WebSocketServer(WEBSOCKET_PORT).onOpen(socket -> {
       System.out.println("Client connected: " + socket);
