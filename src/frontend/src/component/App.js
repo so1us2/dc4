@@ -23,7 +23,7 @@ class App extends Component {
       case "home":
         return (<HomePage loadPage={this.loadPage}/>);
       case "playHuman":
-        return (<PlayHumanPage />);
+        return (<PlayHumanPage loadPage={this.loadPage} socket={this.socket}/>);
       case "playBot":
         return (<PlayBotPage />);
       default:
