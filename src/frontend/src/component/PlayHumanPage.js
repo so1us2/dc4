@@ -18,7 +18,13 @@ export default class PlayHumanPage extends Component {
     }
     this.setState({searching: true, error:false});
     console.log("Sending socket request with name: " + this.state.name);
-    this.props.socket.send(JSON.stringify({command: "search", name: this.state.name}));
+    this.props.socket.send(JSON.stringify({
+      channel: "matchmaking",
+      command: "search",
+      data: {
+        name: this.state.name
+      }
+    }));
   }
 
   cancelSearch = () => {

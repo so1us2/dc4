@@ -10,9 +10,14 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {currentPage: "home"};
+    this.socket = new WebSocket('ws://127.0.0.1:39142');
+    this.socket.onmessage = this.onmessage
   }
 
-  socket = new WebSocket('ws://127.0.0.1:39142');
+  onmessage = (event) => {
+    console.log("Received an message from server! Here it is:");
+    console.log(event);
+  }
 
   loadPage = (page) => {
     this.setState({currentPage: page});

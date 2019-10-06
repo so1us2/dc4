@@ -3,8 +3,6 @@ package backend.api;
 import backend.websockets.DC4WebSockets;
 import backend.websockets.MatchmakingListener;
 import bowser.WebServer;
-import bowser.websocket.WebSocketServer;
-import ox.Json;
 import ox.Log;
 
 public class DC4Server {
@@ -20,14 +18,14 @@ public class DC4Server {
 
     new DC4WebSockets().listener(new MatchmakingListener()).start();
 
-    new WebSocketServer(WEBSOCKET_PORT).onOpen(socket -> {
-      System.out.println("Client connected: " + socket);
-      socket.onMessage(s -> {
-        Log.info("Received message: " + s);
-        Log.info("As JSON: " + new Json(s));
-        socket.send(new Json("{a:1, c:15}"));
-      });
-    }).start();
+    // new WebSocketServer(WEBSOCKET_PORT).onOpen(socket -> {
+    // System.out.println("Client connected: " + socket);
+    // socket.onMessage(s -> {
+    // Log.info("Received message: " + s);
+    // Log.info("As JSON: " + new Json(s));
+    // socket.send(new Json("{a:1, c:15}"));
+    // });
+    // }).start();
     Log.debug("Websocket server listening on port %d", WEBSOCKET_PORT);
 
   }
