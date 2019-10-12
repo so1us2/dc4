@@ -5,4 +5,4 @@ project/db.sqlite3
 *.pyc
 **/.idea/**
 /build/
-**/frontend/build/**
+**/frontend/build
