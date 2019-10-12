@@ -1,6 +1,7 @@
 package backend.api;
 
 import backend.websockets.DC4WebSockets;
+import backend.websockets.GameListener;
 import backend.websockets.MatchmakingListener;
 import bowser.WebServer;
 import ox.Log;
@@ -14,18 +15,10 @@ public class DC4Server {
   public void start() {
 
     new WebServer("DC4", PORT, true).controller(new TestAPI()).start();
-    Log.debug("Server running on port %d", PORT);
+    Log.debug("API Server running on port %d", PORT);
 
-    new DC4WebSockets().listener(new MatchmakingListener()).start();
+    new DC4WebSockets().listener(MatchmakingListener.get()).listener(GameListener.get()).start();
 
-    // new WebSocketServer(WEBSOCKET_PORT).onOpen(socket -> {
-    // System.out.println("Client connected: " + socket);
-    // socket.onMessage(s -> {
-    // Log.info("Received message: " + s);
-    // Log.info("As JSON: " + new Json(s));
-    // socket.send(new Json("{a:1, c:15}"));
-    // });
-    // }).start();
     Log.debug("Websocket server listening on port %d", WEBSOCKET_PORT);
 
   }

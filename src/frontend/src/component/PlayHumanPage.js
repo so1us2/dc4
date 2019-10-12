@@ -10,12 +10,12 @@ export default class PlayHumanPage extends Component {
   }
 
   search = () => {
-    console.log("Searching for an opponent!");
     const name = this.state.name;
     if (!name) {
       this.setState({error:true});
       return;
     }
+    console.log("Searching for an opponent!");
     this.setState({searching: true, error:false});
     console.log("Sending socket request with name: " + this.state.name);
     this.props.socket.send(JSON.stringify({
@@ -29,7 +29,11 @@ export default class PlayHumanPage extends Component {
 
   cancelSearch = () => {
     this.setState({searching: false});
-    this.props.socket.send(JSON.stringify({command: "cancelSearch"}));
+    this.props.socket.send(JSON.stringify({
+      channel: "matchmaking",
+      command: "cancelSearch",
+      data: {}
+    }));
   }
 
   getButtonPanel = () => {
