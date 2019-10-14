@@ -36,6 +36,7 @@ public class DC4WebSockets {
   }
 
   private void delegateMessageToListeners(String s, ClientSocket socket) {
+    Log.debug("Processing request from socket %s", socket);
     if (!isValidMessage(s)) {
       Log.info("Received malformed websocket message: %s", s);
       return;

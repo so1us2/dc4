@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
+
+import DC4WebSocket from '../websockets/DC4WebSocket';
+
 // import ExamplePage from './ExamplePage';
 import HomePage from './HomePage';
 import PlayHumanPage from './PlayHumanPage';
 import PlayBotPage from './PlayBotPage';
+
+
 import classes from './App.css';
 
 class App extends Component {
@@ -10,8 +15,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {currentPage: "home"};
-    this.socket = new WebSocket('ws://127.0.0.1:39142');
-    this.socket.onmessage = this.onmessage
+    this.socket = new DC4WebSocket();
+    this.socket.onmessage = this.onmessage;
   }
 
   onmessage = (event) => {

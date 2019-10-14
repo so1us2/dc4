@@ -7,6 +7,7 @@ export default class PlayHumanPage extends Component {
   constructor(props) {
     super(props);
     this.state = {searching: false, error: false};
+    this.props.socket.listen("search", "token", this.getSearchToken)
   }
 
   search = () => {
@@ -18,22 +19,29 @@ export default class PlayHumanPage extends Component {
     console.log("Searching for an opponent!");
     this.setState({searching: true, error:false});
     console.log("Sending socket request with name: " + this.state.name);
-    this.props.socket.send(JSON.stringify({
+    this.props.socket.send({
       channel: "matchmaking",
       command: "search",
       data: {
         name: this.state.name
       }
-    }));
+    });
+  }
+
+  getSearchToken = (data) => {
+    this.token = data.token;
+    console.log("Received and stored search token " + this.token);
   }
 
   cancelSearch = () => {
     this.setState({searching: false});
-    this.props.socket.send(JSON.stringify({
+    this.props.socket.send({
       channel: "matchmaking",
       command: "cancelSearch",
-      data: {}
-    }));
+      data: {
+        token: this.token
+      }
+    });
   }
 
   getButtonPanel = () => {

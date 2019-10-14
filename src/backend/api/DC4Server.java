@@ -1,8 +1,10 @@
 package backend.api;
 
+import backend.websockets.ConnectionListener;
 import backend.websockets.DC4WebSockets;
 import backend.websockets.GameListener;
 import backend.websockets.MatchmakingListener;
+import backend.websockets.TestListener;
 import bowser.WebServer;
 import ox.Log;
 
@@ -17,7 +19,12 @@ public class DC4Server {
     new WebServer("DC4", PORT, true).controller(new TestAPI()).start();
     Log.debug("API Server running on port %d", PORT);
 
-    new DC4WebSockets().listener(MatchmakingListener.get()).listener(GameListener.get()).start();
+    new DC4WebSockets()
+        .listener(MatchmakingListener.get())
+        .listener(GameListener.get())
+        .listener(ConnectionListener.get())
+        .listener(TestListener.get())
+        .start();
 
     Log.debug("Websocket server listening on port %d", WEBSOCKET_PORT);
 

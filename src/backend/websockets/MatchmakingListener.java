@@ -29,11 +29,19 @@ public class MatchmakingListener extends WebSocketListener {
 
   @Override
   protected void handle(String command, Json data, ClientSocket socket) {
-    Log.info("Matchmaking listener received command %s and data:", command);
+    Log.info("Matchmaking listener received command %s and data: %s", command, data.toString());
     if (command.contentEquals("search")) {
+      if (!data.has("name") || data.get("name").isBlank()) {
+        socket.send(Json.object().with("message", "Invalid request. Client must supply a non-blank player name."));
+        return;
+      }
       matchmakingService.startSearch(data.get("name"), socket);
     } else if (command.contentEquals("cancelSearch")) {
-      matchmakingService.stopSearch(socket);
+      if (!data.has("token")) {
+        socket.send(Json.object().with("message", "Invalid request. Client must supply a token."));
+        return;
+      }
+      matchmakingService.stopSearch(UUID.fromString(data.get("token")), socket);
     }
   }
 
