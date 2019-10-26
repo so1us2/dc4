@@ -16,7 +16,7 @@ public class TestService {
 
   public void handle(int count) {
     Log.debug("Test handle() method with count: " + count);
-    for (int i = 0; i < 1_000_000_000; i++) {
+    for (int i = 0; i < 100_000_000; i++) {
       double a = Math.random();
     }
     Log.debug("Test handle() method with count %d completed.", count);

@@ -40,8 +40,8 @@ public class MatchmakingService {
 
   public void makeMatches() {
     for (long i = 0; i < 100_000_000_000L; i++) {
-      if (i % 100_000_000 == 0) {
-        Log.debug("searchingPlayers.size() is %d", searchingPlayers.size());
+      if (i % 1_000_000_000 == 0) {
+        // Log.debug("searchingPlayers.size() is %d", searchingPlayers.size());
       }
       HumanPlayer player1, player2;
       synchronized (searchingPlayers) {

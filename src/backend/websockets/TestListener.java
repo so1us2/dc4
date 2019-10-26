@@ -8,7 +8,7 @@ public class TestListener extends WebSocketListener {
 
   private static final TestListener instance = new TestListener();
 
-  private int count = 0;
+  private volatile int count = 0;
 
   private final TestService testService = TestService.get();
 

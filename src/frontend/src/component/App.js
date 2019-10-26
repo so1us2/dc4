@@ -31,7 +31,7 @@ class App extends Component {
   renderCurrentPage = () => {
     switch(this.state.currentPage) {
       case "home":
-        return (<HomePage loadPage={this.loadPage}/>);
+        return (<HomePage loadPage={this.loadPage} socket={this.socket}/>);
       case "playHuman":
         return (<PlayHumanPage loadPage={this.loadPage} socket={this.socket}/>);
       case "playBot":

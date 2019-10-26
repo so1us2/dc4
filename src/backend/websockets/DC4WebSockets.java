@@ -32,6 +32,7 @@ public class DC4WebSockets {
 
   private void listenToSocket(ClientSocket socket) {
     Log.info("Client connected: " + socket);
+    // socket.onMessage(s -> Threads.run(() -> delegateMessageToListeners(s, socket)));
     socket.onMessage(s -> delegateMessageToListeners(s, socket));
   }
 
