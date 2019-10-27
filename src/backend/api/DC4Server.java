@@ -5,6 +5,7 @@ import backend.websockets.DC4WebSockets;
 import backend.websockets.GameListener;
 import backend.websockets.MatchmakingListener;
 import backend.websockets.TestListener;
+import backend.websockets.TransactionListener;
 import bowser.WebServer;
 import ox.Log;
 
@@ -24,6 +25,7 @@ public class DC4Server {
         .listener(GameListener.get())
         .listener(ConnectionListener.get())
         .listener(TestListener.get())
+        .listener(TransactionListener.get())
         .start();
 
     Log.debug("Websocket server listening on port %d", WEBSOCKET_PORT);

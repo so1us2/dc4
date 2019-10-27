@@ -41,23 +41,30 @@ public class MatchmakingService {
   public void makeMatches() {
     for (long i = 0; i < 100_000_000_000L; i++) {
       if (i % 1_000_000_000 == 0) {
-        // Log.debug("searchingPlayers.size() is %d", searchingPlayers.size());
+        Log.debug("searchingPlayers.size() is %d", searchingPlayers.size());
       }
       HumanPlayer player1, player2;
+
       synchronized (searchingPlayers) {
         if (searchingPlayers.size() >= 2) {
           player1 = searchingPlayers.remove();
           player2 = searchingPlayers.remove();
         } else {
+          Thread.yield();
           continue;
         }
       }
+
       Log.debug("Matchmaking service found a match.  Players: %s and %s.", player1.name, player2.name);
       if (!connectionService.verifyConnection(player1.socket)) {
-        searchingPlayers.addFirst(player2);
+        synchronized (searchingPlayers) {
+          searchingPlayers.addFirst(player2);
+        }
         continue;
       } else if (!connectionService.verifyConnection(player2.socket)) {
-        searchingPlayers.addFirst(player1);
+        synchronized (searchingPlayers) {
+          searchingPlayers.addFirst(player1);
+        }
         continue;
       }
       sendMatchFound(player1);

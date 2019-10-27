@@ -1,10 +1,9 @@
-
-
 export default class DC4WebSocket {
   constructor() {
     this.socket = new WebSocket('ws://127.0.0.1:39142');
     this.channels = {};
     this.socket.onmessage = this.handleMessage;
+    this.transactor = new Transactor();
     this.listen("connection", "verify", (data) => {
       this.send({
         channel: "connection",
@@ -13,7 +12,11 @@ export default class DC4WebSocket {
           token: data.token
         }
       });
-    })
+    });
+    this.listen("transaction", "transaction", (data) => {
+      const uuid = data.uuid;
+      const responseJson = this.transactor.handleTransactionRequest(data.payload);
+    });
   }
 
   send = (data) => {
@@ -57,10 +60,29 @@ export default class DC4WebSocket {
     console.log(this.channels);
   };
 
+  listenForTransaction = (channel, command, callback) => {
+    this.transactor.listen(channel, command, callback);
+  }
+
   stopListening = (channel, command) => {
     if (!(channel in this.channels)) {
       return;
     }
     delete this.channels[command];
+  }
+}
+
+/*
+ * Returns JSON to act as payload for transaction responses.
+ */
+class Transactor {
+  constructor() {
+    this.channels = {};
+  }
+  listen = (channel, command, callback) => {
+    if (!(channel in this.channels)) {
+      this.channels[channel] = {};
+    }
+    this.channels[channel][command] = callback;
   }
 }
