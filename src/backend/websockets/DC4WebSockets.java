@@ -9,6 +9,7 @@ import bowser.websocket.ClientSocket;
 import bowser.websocket.WebSocketServer;
 import ox.Json;
 import ox.Log;
+import ox.Threads;
 
 public class DC4WebSockets {
 
@@ -32,8 +33,7 @@ public class DC4WebSockets {
 
   private void listenToSocket(ClientSocket socket) {
     Log.info("Client connected: " + socket);
-    // socket.onMessage(s -> Threads.run(() -> delegateMessageToListeners(s, socket)));
-    socket.onMessage(s -> delegateMessageToListeners(s, socket));
+    socket.onMessage(s -> Threads.run(() -> delegateMessageToListeners(s, socket)));
   }
 
   private void delegateMessageToListeners(String s, ClientSocket socket) {

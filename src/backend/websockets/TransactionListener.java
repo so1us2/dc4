@@ -103,7 +103,14 @@ public class TransactionListener extends WebSocketListener {
       Time time = new Time();
       Instant start = time.nowAsInstant();
       Instant end = start.plus(Duration.ofMillis(timeoutMillis));
-      socket.send(message);
+
+      try {
+        socket.send(message);
+      } catch (Exception e) {
+        result = onFail.get();
+        return this;
+      }
+
       while (time.nowAsInstant().isBefore(end)) {
         synchronized (responses) {
           if (responses.containsKey(uuid)) {
@@ -113,13 +120,16 @@ public class TransactionListener extends WebSocketListener {
           }
         }
       }
+
       if (responses.containsKey(uuid)) {
         result = onResponse.apply(responses.get(uuid));
         requestSuccessful = true;
       }
+
       if (!requestSuccessful) {
         result = onFail.get();
       }
+
       return this;
     }
 

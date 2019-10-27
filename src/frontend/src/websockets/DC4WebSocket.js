@@ -6,16 +6,12 @@ export default class DC4WebSocket {
     this.transactor = new Transactor();
     this.listen("connection", "verify", (data) => {
       this.send({
-        channel: "connection",
-        command: "verify",
+        channel: "transaction",
+        command: "response",
         data: {
-          token: data.token
+          transactionUUID: data.transactionUUID
         }
       });
-    });
-    this.listen("transaction", "transaction", (data) => {
-      const uuid = data.uuid;
-      const responseJson = this.transactor.handleTransactionRequest(data.payload);
     });
   }
 

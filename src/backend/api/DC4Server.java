@@ -1,6 +1,5 @@
 package backend.api;
 
-import backend.websockets.ConnectionListener;
 import backend.websockets.DC4WebSockets;
 import backend.websockets.GameListener;
 import backend.websockets.MatchmakingListener;
@@ -23,7 +22,6 @@ public class DC4Server {
     new DC4WebSockets()
         .listener(MatchmakingListener.get())
         .listener(GameListener.get())
-        .listener(ConnectionListener.get())
         .listener(TestListener.get())
         .listener(TransactionListener.get())
         .start();

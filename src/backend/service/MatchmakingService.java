@@ -57,6 +57,7 @@ public class MatchmakingService {
 
       Log.debug("Matchmaking service found a match.  Players: %s and %s.", player1.name, player2.name);
       if (!connectionService.verifyConnection(player1.socket)) {
+        Log.debug("Player 1, " + player1.name + " failed verification.");
         synchronized (searchingPlayers) {
           searchingPlayers.addFirst(player2);
         }
