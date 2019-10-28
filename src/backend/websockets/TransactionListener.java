@@ -34,9 +34,7 @@ public class TransactionListener extends WebSocketListener {
       (data, socket) -> {
         UUID uuid = UUID.fromString(data.get("transactionUUID"));
         data.remove("transactionUUID");
-        synchronized (responses) {
-          responses.put(uuid, data); // Put the response where the transaction's execution thread can find it.
-        }
+        responses.put(uuid, data); // Put the response where the transaction's execution thread can find it.
       });
 
   /**
@@ -107,20 +105,16 @@ public class TransactionListener extends WebSocketListener {
       }
 
       while (time.nowAsInstant().isBefore(end)) {
-        synchronized (responses) {
-          if (responses.containsKey(uuid)) {
-            break;
-          } else {
-            Thread.yield();
-          }
+        if (responses.containsKey(uuid)) {
+          break;
+        } else {
+          Thread.yield();
         }
       }
 
-      synchronized (responses) {
-        if (responses.containsKey(uuid)) {
-          result = onResponse.apply(responses.get(uuid));
-          requestSuccessful = true;
-        }
+      if (responses.containsKey(uuid)) {
+        result = onResponse.apply(responses.get(uuid));
+        requestSuccessful = true;
       }
 
       if (!requestSuccessful) {

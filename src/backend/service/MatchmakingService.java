@@ -1,6 +1,6 @@
 package backend.service;
 
-import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Map;
 import java.util.UUID;
 
@@ -23,7 +23,8 @@ public class MatchmakingService {
     instance.start();
   }
 
-  private ArrayDeque<HumanPlayer> searchingPlayers = Queues.newArrayDeque();
+  private Deque<HumanPlayer> searchingPlayers = Queues
+      .<HumanPlayer>synchronizedDeque(Queues.<HumanPlayer>newArrayDeque());
   private Map<UUID, HumanPlayer> uuidToPlayer = Maps.newConcurrentMap();
 
   private MatchmakingService() {
@@ -45,27 +46,21 @@ public class MatchmakingService {
       }
       HumanPlayer player1, player2;
 
-      synchronized (searchingPlayers) {
-        if (searchingPlayers.size() >= 2) {
-          player1 = searchingPlayers.remove();
-          player2 = searchingPlayers.remove();
-        } else {
-          Thread.yield();
-          continue;
-        }
+      if (searchingPlayers.size() >= 2) {
+        player1 = searchingPlayers.remove();
+        player2 = searchingPlayers.remove();
+      } else {
+        Thread.yield();
+        continue;
       }
 
       Log.debug("Matchmaking service found a match.  Players: %s and %s.", player1.name, player2.name);
       if (!connectionService.verifyConnection(player1.socket)) {
         Log.debug("Player 1, " + player1.name + " failed verification.");
-        synchronized (searchingPlayers) {
-          searchingPlayers.addFirst(player2);
-        }
+        searchingPlayers.addFirst(player2);
         continue;
       } else if (!connectionService.verifyConnection(player2.socket)) {
-        synchronized (searchingPlayers) {
-          searchingPlayers.addFirst(player1);
-        }
+        searchingPlayers.addFirst(player1);
         continue;
       }
       sendMatchFound(player1);
@@ -79,9 +74,7 @@ public class MatchmakingService {
     HumanPlayer player = new HumanPlayer(name, socket);
     player.uuid = UUID.randomUUID();
     uuidToPlayer.put(player.uuid, player);
-    synchronized (searchingPlayers) {
-      searchingPlayers.add(player);
-    }
+    searchingPlayers.add(player);
     socket.send(Json.object()
         .with("channel", "search")
         .with("command", "token")
