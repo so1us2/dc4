@@ -37,7 +37,7 @@ public class DC4WebSockets {
   }
 
   private void delegateMessageToListeners(String s, ClientSocket socket) {
-    Log.debug("Processing request from socket %s", socket);
+    Log.debug("Processing request from socket %s, message:\n %s", socket, s);
     if (!isValidMessage(s)) {
       Log.info("Received malformed websocket message: %s", s);
       return;
@@ -79,6 +79,11 @@ public class DC4WebSockets {
       this.channel = channel;
       this.command = command;
       this.data = data;
+    }
+
+    @Override
+    public String toString() {
+      return String.format("channel: %s, command: %s, data: %s", channel, command, data.toString());
     }
 
   }

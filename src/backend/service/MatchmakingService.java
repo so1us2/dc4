@@ -24,7 +24,7 @@ public class MatchmakingService {
   }
 
   private ArrayDeque<HumanPlayer> searchingPlayers = Queues.newArrayDeque();
-  private Map<UUID, HumanPlayer> uuidToPlayer = Maps.newHashMap();
+  private Map<UUID, HumanPlayer> uuidToPlayer = Maps.newConcurrentMap();
 
   private MatchmakingService() {
 
@@ -40,7 +40,7 @@ public class MatchmakingService {
 
   public void makeMatches() {
     for (long i = 0; i < 100_000_000_000L; i++) {
-      if (i % 1_000_000_000 == 0) {
+      if (i % 100_000_000 == 0) {
         Log.debug("searchingPlayers.size() is %d", searchingPlayers.size());
       }
       HumanPlayer player1, player2;
@@ -79,7 +79,9 @@ public class MatchmakingService {
     HumanPlayer player = new HumanPlayer(name, socket);
     player.uuid = UUID.randomUUID();
     uuidToPlayer.put(player.uuid, player);
-    searchingPlayers.add(new HumanPlayer(name, socket));
+    synchronized (searchingPlayers) {
+      searchingPlayers.add(player);
+    }
     socket.send(Json.object()
         .with("channel", "search")
         .with("command", "token")
@@ -88,13 +90,18 @@ public class MatchmakingService {
   }
 
   public void stopSearch(UUID uuid, ClientSocket socket) {
+
     if (!uuidToPlayer.containsKey(uuid)) {
       socket.send(Json.object().with("message", "Could not find token " + uuid));
       return;
     }
     HumanPlayer player = uuidToPlayer.get(uuid);
     uuidToPlayer.remove(uuid);
-    searchingPlayers.remove(player);
+
+    synchronized (searchingPlayers) {
+      searchingPlayers.remove(player);
+    }
+
     socket.send(Json.object().with("message", "Removed player " + player.name + " from search queue."));
   }
 
