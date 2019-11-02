@@ -17,9 +17,13 @@ import ox.Json;
  */
 public class Transaction<T> {
 
+  public volatile boolean receivedResponse = false;
+
+  public volatile Json responseJson = null;
+
   private ClientSocket socket;
 
-  private UUID uuid;
+  UUID uuid;
 
   private Json message;
 
@@ -34,6 +38,8 @@ public class Transaction<T> {
   private Function<Json, T> onResponse;
 
   private T result = null;
+
+  private final TransactionListener transactionListener = TransactionListener.get();
 
   public Transaction(ClientSocket socket) {
     this.socket = socket;
@@ -77,18 +83,17 @@ public class Transaction<T> {
       result = onFail.get();
       return this;
     }
+    
+    transactionListener.register(this);
 
-    while (time.nowAsInstant().isBefore(end)) {
-      if (TransactionListener.responses.containsKey(uuid)) {
-        break;
-      } else {
-        Thread.yield();
-      }
+    try {
+      this.wait(timeoutMillis);
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
     }
 
-    if (responses.containsKey(uuid)) {
-      result = onResponse.apply(responses.get(uuid));
-      requestSuccessful = true;
+    if (receivedResponse) {
+      result = onResponse.apply(responseJson);
     }
 
     if (!requestSuccessful) {
