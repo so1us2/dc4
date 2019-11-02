@@ -6,7 +6,7 @@ import dc4.websockets.DC4WebSockets;
 import dc4.websockets.GameListener;
 import dc4.websockets.MatchmakingListener;
 import dc4.websockets.TestListener;
-import dc4.websockets.TransactionListener;
+import dc4.websockets.transaction.TransactionListener;
 import ox.Log;
 
 public class DC4Server {

@@ -9,6 +9,8 @@ import com.google.common.collect.Queues;
 
 import bowser.websocket.ClientSocket;
 import dc4.arch.HumanPlayer;
+import dc4.websockets.transaction.BiTransaction;
+import dc4.websockets.transaction.Transaction;
 import ox.Json;
 import ox.Log;
 import ox.Threads;
@@ -16,6 +18,7 @@ import ox.Threads;
 public class MatchmakingService {
 
   private final GameService gameService = GameService.get();
+
   private final ConnectionService connectionService = ConnectionService.get();
 
   private static final MatchmakingService instance = new MatchmakingService();
@@ -23,12 +26,15 @@ public class MatchmakingService {
     instance.start();
   }
 
+  // How long players have to accept a found match.
+  private static final long ACCEPT_TIME_MILLIS = 11_000;
+
   private Deque<HumanPlayer> searchingPlayers = Queues
       .<HumanPlayer>synchronizedDeque(Queues.<HumanPlayer>newArrayDeque());
   private Map<UUID, HumanPlayer> uuidToPlayer = Maps.newConcurrentMap();
 
   private MatchmakingService() {
-
+    // Singleton pattern.
   }
 
   public static MatchmakingService get() {
@@ -40,10 +46,7 @@ public class MatchmakingService {
   }
 
   public void makeMatches() {
-    for (long i = 0; i < 100_000_000_000L; i++) {
-      if (i % 100_000_000 == 0) {
-        Log.debug("searchingPlayers.size() is %d", searchingPlayers.size());
-      }
+    while (true) {
       HumanPlayer player1, player2;
 
       if (searchingPlayers.size() >= 2) {
@@ -55,6 +58,21 @@ public class MatchmakingService {
       }
 
       Log.debug("Matchmaking service found a match.  Players: %s and %s.", player1.name, player2.name);
+
+      new BiTransaction<Boolean, Boolean, Void>(accept(player1), accept(player2))
+          .waitAll()
+          .onComplete((r1, r2) -> {
+            if (r1 && r2) {
+              gameService.startGame(player1, player2);
+            } else if (r1 && !r2) {
+              returnToQueue(player1);
+            } else if (!r1 && r2) {
+              returnToQueue(player2);
+            }
+            return null;
+          })
+          .execute();
+
       if (!connectionService.verifyConnection(player1.socket)) {
         Log.debug("Player 1, " + player1.name + " failed verification.");
         searchingPlayers.addFirst(player2);
@@ -63,6 +81,7 @@ public class MatchmakingService {
         searchingPlayers.addFirst(player1);
         continue;
       }
+
       sendMatchFound(player1);
       sendMatchFound(player2);
       gameService.startGame(player1, player2);
@@ -98,8 +117,29 @@ public class MatchmakingService {
     socket.send(Json.object().with("message", "Removed player " + player.name + " from search queue."));
   }
 
+  private void returnToQueue(HumanPlayer player) {
+    searchingPlayers.addFirst(player);
+    player.socket.send(Json.object().with("channel", "matchmaking").with("command", "opponentDidNotAccept"));
+  }
+
   private void sendMatchFound(HumanPlayer player) {
     player.socket.send(Json.object().with("channel", "matchmaking").with("command", "matchFound"));
+  }
+
+  private Transaction<Boolean> accept(HumanPlayer player) {
+    return new Transaction<Boolean>(player.socket)
+        .message(Json.object().with("channel", "matchmaking").with("command", "accept"))
+        .setTimeoutMillis(ACCEPT_TIME_MILLIS)
+        .onResponse(json -> {
+          if (!json.hasKey("response")) {
+            return false;
+          } else if (json.get("response").equalsIgnoreCase("accept")) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+        .onFail(() -> false);
   }
 
 }

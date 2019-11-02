@@ -1,7 +1,7 @@
 package dc4.service;
 
 import bowser.websocket.ClientSocket;
-import dc4.websockets.TransactionListener.WebSocketTransaction;
+import dc4.websockets.transaction.Transaction;
 import ox.Json;
 
 public class ConnectionService {
@@ -15,7 +15,7 @@ public class ConnectionService {
   }
 
   public boolean verifyConnection(ClientSocket socket) {
-    return new WebSocketTransaction<Boolean>(socket)
+    return new Transaction<Boolean>(socket)
         .message(Json.object()
             .with("channel", "connection")
             .with("command", "verify")
