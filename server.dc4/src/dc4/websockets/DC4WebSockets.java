@@ -1,12 +1,12 @@
-package backend.websockets;
+package dc4.websockets;
 
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import backend.api.DC4Server;
 import bowser.websocket.ClientSocket;
 import bowser.websocket.WebSocketServer;
+import dc4.DC4Server;
 import ox.Json;
 import ox.Log;
 import ox.Threads;

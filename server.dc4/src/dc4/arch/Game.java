@@ -1,11 +1,11 @@
-package backend.arch;
+package dc4.arch;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.UUID;
 
-import backend.websockets.GameListener;
 import bowser.websocket.ClientSocket;
+import dc4.websockets.GameListener;
 import ox.Json;
 import ox.Log;
 

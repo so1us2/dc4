@@ -1,7 +1,7 @@
-package backend.websockets;
+package dc4.websockets;
 
-import backend.service.TestService;
 import bowser.websocket.ClientSocket;
+import dc4.service.TestService;
 import ox.Json;
 
 public class TestListener extends WebSocketListener {

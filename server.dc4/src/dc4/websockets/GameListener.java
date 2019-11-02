@@ -1,4 +1,4 @@
-package backend.websockets;
+package dc4.websockets;
 
 import static com.google.common.base.Preconditions.checkState;
 
@@ -7,8 +7,8 @@ import java.util.UUID;
 
 import com.google.common.collect.Maps;
 
-import backend.arch.Game;
 import bowser.websocket.ClientSocket;
+import dc4.arch.Game;
 import ox.Json;
 
 public class GameListener extends WebSocketListener {

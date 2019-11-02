@@ -1,4 +1,4 @@
-package backend.websockets;
+package dc4.websockets;
 
 import java.util.Map;
 

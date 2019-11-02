@@ -1,11 +1,11 @@
-package backend.service;
+package dc4.service;
 
 import java.util.Collection;
 
 import com.google.common.collect.Lists;
 
-import backend.arch.Game;
-import backend.arch.HumanPlayer;
+import dc4.arch.Game;
+import dc4.arch.HumanPlayer;
 
 public class GameService {
 

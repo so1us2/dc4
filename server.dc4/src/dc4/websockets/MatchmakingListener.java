@@ -1,8 +1,8 @@
-package backend.websockets;
+package dc4.websockets;
 
 import java.util.UUID;
 
-import backend.service.MatchmakingService;
+import dc4.service.MatchmakingService;
 
 public class MatchmakingListener extends WebSocketListener {
 

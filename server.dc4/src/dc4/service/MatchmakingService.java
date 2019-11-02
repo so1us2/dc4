@@ -1,4 +1,4 @@
-package backend.service;
+package dc4.service;
 
 import java.util.Deque;
 import java.util.Map;
@@ -7,8 +7,8 @@ import java.util.UUID;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
 
-import backend.arch.HumanPlayer;
 import bowser.websocket.ClientSocket;
+import dc4.arch.HumanPlayer;
 import ox.Json;
 import ox.Log;
 import ox.Threads;
