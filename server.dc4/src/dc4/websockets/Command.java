@@ -3,7 +3,6 @@ package dc4.websockets;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
-import bowser.websocket.ClientSocket;
 import ox.Json;
 
 /**
@@ -25,9 +24,9 @@ public class Command {
   /**
    * What I do with the data once I've determined it's valid.
    */
-  public final BiConsumer<Json, ClientSocket> onResponse;
+  public final BiConsumer<Json, DC4ClientSocket> onResponse;
 
-  public Command(String name, Predicate<Json> validTest, BiConsumer<Json, ClientSocket> onResponse) {
+  public Command(String name, Predicate<Json> validTest, BiConsumer<Json, DC4ClientSocket> onResponse) {
     this.name = name;
     this.validTest = validTest;
     this.onResponse = onResponse;

@@ -6,17 +6,17 @@ import static ox.util.Utils.normalize;
 
 import java.util.UUID;
 
-import bowser.websocket.ClientSocket;
+import dc4.websockets.DC4ClientSocket;
 
 public class HumanPlayer {
 
-  public final ClientSocket socket;
+  public final DC4ClientSocket socket;
 
   public final String name;
 
   public UUID uuid;
 
-  public HumanPlayer(String name, ClientSocket socket) {
+  public HumanPlayer(String name, DC4ClientSocket socket) {
     this.socket = checkNotNull(socket);
     this.name = checkNotEmpty(normalize(name));
   }

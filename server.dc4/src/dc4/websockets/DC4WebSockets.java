@@ -33,10 +33,10 @@ public class DC4WebSockets {
 
   private void listenToSocket(ClientSocket socket) {
     Log.info("Client connected: " + socket);
-    socket.onMessage(s -> Threads.run(() -> delegateMessageToListeners(s, socket)));
+    socket.onMessage(s -> Threads.run(() -> delegateMessageToListeners(s, new DC4ClientSocket(socket))));
   }
 
-  private void delegateMessageToListeners(String s, ClientSocket socket) {
+  private void delegateMessageToListeners(String s, DC4ClientSocket socket) {
     Log.debug("Processing request from socket %s, message:\n %s", socket, s);
     if (!isValidMessage(s)) {
       Log.info("Received malformed websocket message: %s", s);
@@ -46,7 +46,7 @@ public class DC4WebSockets {
     Log.info("Processing websocket message: " + message);
     for (WebSocketListener listener : listeners) {
       if (message.channel.equals(listener.channel)) {
-        listener.handle(message.command, message.data, socket);
+        listener.handle(message);
         return;
       }
     }
@@ -67,24 +67,5 @@ public class DC4WebSockets {
     return new WebSocketMessage(json.get("channel"), json.get("command"), json.getJson("data"));
   }
 
-  private static class WebSocketMessage {
 
-    private final String channel;
-
-    private final String command;
-
-    private final Json data;
-
-    private WebSocketMessage(String channel, String command, Json data) {
-      this.channel = channel;
-      this.command = command;
-      this.data = data;
-    }
-
-    @Override
-    public String toString() {
-      return String.format("channel: %s, command: %s, data: %s", channel, command, data.toString());
-    }
-
-  }
 }

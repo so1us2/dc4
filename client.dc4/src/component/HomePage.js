@@ -16,12 +16,6 @@ export default class HomePage extends Component {
       command: "test",
       data: {payload: "payload 1"}
     });
-
-    this.props.socket.send({
-      channel: "test",
-      command: "test",
-      data: {payload: "payload 2"}
-    });
   }
 
   render () {

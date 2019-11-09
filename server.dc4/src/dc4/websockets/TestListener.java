@@ -1,8 +1,6 @@
 package dc4.websockets;
 
-import bowser.websocket.ClientSocket;
 import dc4.service.TestService;
-import ox.Json;
 
 public class TestListener extends WebSocketListener {
 
@@ -21,7 +19,7 @@ public class TestListener extends WebSocketListener {
   }
 
   @Override
-  protected void handle(String command, Json data, ClientSocket socket) {
+  protected void handle(WebSocketMessage message) {
     testService.handle(++count);
   }
 

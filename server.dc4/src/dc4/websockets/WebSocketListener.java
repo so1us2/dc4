@@ -4,7 +4,6 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import bowser.websocket.ClientSocket;
 import ox.Json;
 
 public abstract class WebSocketListener {
@@ -21,14 +20,11 @@ public abstract class WebSocketListener {
     commands.put(command.name, command);
   }
 
-  protected void handle(String commandName, Json data, ClientSocket socket) {
-    if (!commands.containsKey(commandName)) {
-      socket.send(Json.object().with("message", "Invalid command: " + commandName));
-      return;
-    }
-    Command command = commands.get(commandName);
-    if (!command.validTest.test(data)) {
-      socket.send(Json.object().with("message", "Invalid data for command " + commandName + ": " + data.toString()));
+  protected void handle(WebSocketMessage message) {
+    Command command = commands.get(message.command);
+    if (!command.validTest.test(message.data)) {
+      message.socket.send(Json.object().with(WebSocketMessage
+          .plainMessage("Invalid data for command " + message.command + ": " + message.data.toString())));
       return;
     }
     command.onResponse.accept(data, socket);

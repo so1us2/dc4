@@ -8,8 +8,9 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import bowser.websocket.ClientSocket;
 import dc4.arch.Time;
+import dc4.websockets.DC4ClientSocket;
+import dc4.websockets.WebSocketMessage;
 import ox.Json;
 
 /**
@@ -21,11 +22,11 @@ public class Transaction<T> {
 
   public volatile Json responseJson = null;
 
-  private ClientSocket socket;
+  private DC4ClientSocket socket;
 
   UUID uuid;
 
-  private Json message;
+  private WebSocketMessage message;
 
   private static final long DEFAULT_TIMEOUT_MILLIS = 2000;
 
@@ -41,7 +42,7 @@ public class Transaction<T> {
 
   private final TransactionListener transactionListener = TransactionListener.get();
 
-  public Transaction(ClientSocket socket) {
+  public Transaction(DC4ClientSocket socket) {
     this.socket = socket;
     this.uuid = UUID.randomUUID();
   }
@@ -50,9 +51,9 @@ public class Transaction<T> {
    * Adds a transactionUUID field to the data field of the message so that the client can identify the transaction in
    * its response. Therefore, transactionUUID is a reserved word for data fields in outgoing transaction.
    */
-  public Transaction<T> message(Json message) {
+  public Transaction<T> message(WebSocketMessage message) {
     checkNotNull(message);
-    message.getJson("data").with("transactionUUID", uuid);
+    message.data.with("transactionUUID", uuid);
     this.message = message;
     return this;
   }

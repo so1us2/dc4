@@ -1,6 +1,7 @@
 package dc4.service;
 
-import bowser.websocket.ClientSocket;
+import dc4.websockets.DC4ClientSocket;
+import dc4.websockets.WebSocketMessage;
 import dc4.websockets.transaction.Transaction;
 import ox.Json;
 
@@ -14,12 +15,9 @@ public class ConnectionService {
     return instance;
   }
 
-  public boolean verifyConnection(ClientSocket socket) {
+  public boolean verifyConnection(DC4ClientSocket socket) {
     return new Transaction<Boolean>(socket)
-        .message(Json.object()
-            .with("channel", "connection")
-            .with("command", "verify")
-            .with("data", Json.object())) // no data,.
+        .message(new WebSocketMessage("connection", "verify", Json.object())) // no data,.
         .setTimeoutMillis(VERIFY_CONNECTION_TIMEOUT)
         .onFail(() -> false)
         .onResponse(anyResponse -> true)

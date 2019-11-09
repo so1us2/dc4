@@ -128,7 +128,7 @@ public class MatchmakingService {
 
   private Transaction<Boolean> accept(HumanPlayer player) {
     return new Transaction<Boolean>(player.socket)
-        .message(Json.object().with("channel", "matchmaking").with("command", "accept"))
+        .message(Json.object().with("channel", "matchmaking").with("command", "accept").with())
         .setTimeoutMillis(ACCEPT_TIME_MILLIS)
         .onResponse(json -> {
           if (!json.hasKey("response")) {

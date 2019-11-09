@@ -30,10 +30,13 @@ public class TransactionListener extends WebSocketListener {
       (data, socket) -> {
         UUID uuid = UUID.fromString(data.get("transactionUUID"));
         data.remove("transactionUUID");
-        if (!openTransactions.containsKey(uuid)) {
-          socket.send(Json.object().with("message", "Invalid transaction ID."));
+        Transaction<?> transaction;
+        synchronized (openTransactions) {
+          if (!openTransactions.containsKey(uuid)) {
+            socket.send(Json.object().with("message", "Invalid transaction ID."));
+          }
+          transaction = openTransactions.remove(uuid);
         }
-        Transaction<?> transaction = openTransactions.get(uuid);
         transaction.receivedResponse = true;
         transaction.responseJson = data;
         transaction.notify();

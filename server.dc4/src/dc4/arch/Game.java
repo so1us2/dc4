@@ -4,9 +4,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.UUID;
 
-import bowser.websocket.ClientSocket;
 import dc4.websockets.GameListener;
-import ox.Json;
+import dc4.websockets.WebSocketMessage;
 import ox.Log;
 
 public class Game {
@@ -25,8 +24,9 @@ public class Game {
     GameListener.get().register(this);
   }
 
-  public void handle(String command, Json json, ClientSocket socket) {
-    Log.debug("Received command %s with data %s from socket %s.", command, json.toString(), socket);
-    socket.send(Json.object().with("message", "just parroting back the request").with("data", json));
+  public void handle(WebSocketMessage message) {
+    // just parrot back the response. Soon we'll do things with this.
+    Log.debug("Game %s received WebSocketMessage: %s", message.toString());
+    message.socket.send(WebSocketMessage.plainMessage("Game received your response: " + message.toString()));
   }
 }

@@ -7,9 +7,7 @@ import java.util.UUID;
 
 import com.google.common.collect.Maps;
 
-import bowser.websocket.ClientSocket;
 import dc4.arch.Game;
-import ox.Json;
 
 public class GameListener extends WebSocketListener {
 
@@ -31,18 +29,18 @@ public class GameListener extends WebSocketListener {
   }
 
   @Override
-  protected void handle(String command, Json data, ClientSocket socket) {
+  protected void handle(WebSocketMessage message) {
 
-    if (!data.has("token")) {
-      socket.send(Json.object().with("message", "Unable to process this command without a token."));
+    if (!message.data.has("token")) {
+      message.socket.send(WebSocketMessage.plainMessage("Unable to process this command without a token."));
     }
 
-    UUID uuid = UUID.fromString(data.get("token"));
+    UUID uuid = UUID.fromString(message.data.get("token"));
     if (!games.containsKey(uuid)) {
-      socket.send(Json.object().with("message", "Invalid token."));
+      message.socket.send(WebSocketMessage.plainMessage("Invalid token."));
     }
 
-    games.get(uuid).handle(command, data, socket);
+    games.get(uuid).handle(message);
   }
 
 }
