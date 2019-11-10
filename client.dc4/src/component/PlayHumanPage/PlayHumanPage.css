@@ -9,3 +9,7 @@
 .PlayHumanPage button {
   margin-right: 8px;
 }
+
+button.CancelButton {
+  background-color: rgb(255,0,0,1);
+}
