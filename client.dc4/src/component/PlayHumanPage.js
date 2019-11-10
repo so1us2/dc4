@@ -6,8 +6,15 @@ export default class PlayHumanPage extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {searching: false, error: false};
-    this.props.socket.listen("search", "token", this.getSearchToken)
+
+    this.state = {
+      searching: false,
+      error: false,
+      awaitingAccept: false
+    };
+
+    this.props.socket.listen("search", "token", this.getSearchToken);
+    this.props.socket.listen("matchmaking", "accept", this.clientAccept)
   }
 
   search = () => {
@@ -26,12 +33,17 @@ export default class PlayHumanPage extends Component {
         name: this.state.name
       }
     });
-  }
+  };
 
   getSearchToken = (data) => {
     this.token = data.token;
     console.log("Received and stored search token " + this.token);
-  }
+  };
+
+  clientAccept = (data) => {
+    this.setState({awaitingAccept: true});
+    return;
+  };
 
   cancelSearch = () => {
     this.setState({searching: false});
@@ -44,7 +56,7 @@ export default class PlayHumanPage extends Component {
     });
   }
 
-  getButtonPanel = () => {
+  renderButtonPanel = () => {
     if (this.state.searching) {
       return (<button onClick={this.cancelSearch} style={{backgroundColor: "red"}}>Cancel</button>);
     } else {
@@ -70,7 +82,8 @@ export default class PlayHumanPage extends Component {
           onChange={(e) => this.setState({name: e.target.value})}
         />
         <br/>
-        {this.getButtonPanel()}
+        {this.renderButtonPanel()}
+        {this.state.awaitingAccept ? <AcceptPanel socket={this.props.socket} /> : null}
       </div>
     );
   }

@@ -42,7 +42,7 @@ public class DC4WebSockets {
       Log.info("Received malformed websocket message: %s", s);
       return;
     }
-    WebSocketMessage message = parseWebSocketMessage(s);
+    WebSocketMessage message = parseWebSocketMessage(s).withSocket(socket);
     Log.info("Processing websocket message: " + message);
     for (WebSocketListener listener : listeners) {
       if (message.channel.equals(listener.channel)) {

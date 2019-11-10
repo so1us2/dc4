@@ -88,7 +88,9 @@ public class Transaction<T> {
     transactionListener.register(this);
 
     try {
-      this.wait(timeoutMillis);
+      synchronized (this) {
+        this.wait(timeoutMillis);
+      }
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }

@@ -10,7 +10,11 @@ public class WebSocketMessage {
 
   public final Json data;
 
-  public final DC4ClientSocket socket;
+  public DC4ClientSocket socket;
+
+  public WebSocketMessage(String channel, String command) {
+    this(channel, command, Json.object());
+  }
 
   public WebSocketMessage(String channel, String command, Json data) {
     this(channel, command, data, null);
@@ -21,6 +25,11 @@ public class WebSocketMessage {
     this.command = command;
     this.data = data;
     this.socket = socket;
+  }
+
+  public WebSocketMessage withSocket(DC4ClientSocket socket) {
+    this.socket = socket;
+    return this;
   }
 
   @Override

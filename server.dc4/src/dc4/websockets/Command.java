@@ -1,9 +1,7 @@
 package dc4.websockets;
 
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
-
-import ox.Json;
 
 /**
  * WebSocketListeners handle all messages the same: get the {@code command} from the header, and run some code for that
@@ -19,14 +17,14 @@ public class Command {
   /**
    * The {@code data} field of the client request must pass this test, or a canned response is returned to the client.
    */
-  public final Predicate<Json> validTest;
+  public final Predicate<WebSocketMessage> validTest;
 
   /**
    * What I do with the data once I've determined it's valid.
    */
-  public final BiConsumer<Json, DC4ClientSocket> onResponse;
+  public final Consumer<WebSocketMessage> onResponse;
 
-  public Command(String name, Predicate<Json> validTest, BiConsumer<Json, DC4ClientSocket> onResponse) {
+  public Command(String name, Predicate<WebSocketMessage> validTest, Consumer<WebSocketMessage> onResponse) {
     this.name = name;
     this.validTest = validTest;
     this.onResponse = onResponse;

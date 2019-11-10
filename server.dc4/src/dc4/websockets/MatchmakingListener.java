@@ -21,15 +21,15 @@ public class MatchmakingListener extends WebSocketListener {
   }
 
   Command search = new Command("search", 
-      data -> data.has("name") && !data.get("name").isBlank(),
-      (data, socket) -> {
-        matchmakingService.startSearch(data.get("name"), socket);
+      message -> message.data.has("name") && !message.data.get("name").isBlank(),
+      message -> {
+        matchmakingService.startSearch(message.data.get("name"), message.socket);
       });
 
   Command cancelSearch = new Command("cancelSearch",
-      data -> data.has("token"),
-      (data, socket) -> {
-        matchmakingService.stopSearch(UUID.fromString(data.get("token")), socket);
+      message -> message.data.has("token"),
+      message -> {
+        matchmakingService.stopSearch(UUID.fromString(message.data.get("token")), message.socket);
       });
 
 }

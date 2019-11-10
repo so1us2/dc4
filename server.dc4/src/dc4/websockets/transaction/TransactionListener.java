@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import dc4.websockets.Command;
 import dc4.websockets.WebSocketListener;
+import dc4.websockets.WebSocketMessage;
 import ox.Json;
 
 public class TransactionListener extends WebSocketListener {
@@ -26,20 +27,22 @@ public class TransactionListener extends WebSocketListener {
   }
 
   private Command response = new Command("response",
-      data -> data.hasKey("transactionUUID"), // response data must have a UUID.
-      (data, socket) -> {
-        UUID uuid = UUID.fromString(data.get("transactionUUID"));
-        data.remove("transactionUUID");
+      message -> message.data.hasKey("transactionUUID"), // response data must have a UUID.
+      message -> {
+        UUID uuid = UUID.fromString(message.data.get("transactionUUID"));
+        message.data.remove("transactionUUID");
         Transaction<?> transaction;
         synchronized (openTransactions) {
           if (!openTransactions.containsKey(uuid)) {
-            socket.send(Json.object().with("message", "Invalid transaction ID."));
+            message.socket.send(WebSocketMessage.plainMessage("Invalid transaction UUID."));
           }
           transaction = openTransactions.remove(uuid);
         }
-        transaction.receivedResponse = true;
-        transaction.responseJson = data;
-        transaction.notify();
+        synchronized (transaction) {
+          transaction.receivedResponse = true;
+          transaction.responseJson = message.data;
+          transaction.notify();
+        }
       });
 
   /**

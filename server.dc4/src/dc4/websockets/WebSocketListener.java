@@ -4,9 +4,7 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import ox.Json;
-
-public abstract class WebSocketListener {
+public abstract class WebSocketListener implements WebSocketHandler {
 
   public final String channel;
 
@@ -20,14 +18,15 @@ public abstract class WebSocketListener {
     commands.put(command.name, command);
   }
 
-  protected void handle(WebSocketMessage message) {
+  @Override
+  public void handle(WebSocketMessage message) {
     Command command = commands.get(message.command);
-    if (!command.validTest.test(message.data)) {
-      message.socket.send(Json.object().with(WebSocketMessage
-          .plainMessage("Invalid data for command " + message.command + ": " + message.data.toString())));
+    if (!command.validTest.test(message)) {
+      message.socket.send(WebSocketMessage.plainMessage(
+          "Invalid data for command " + message.command + ": " + message.data.toString()));
       return;
     }
-    command.onResponse.accept(data, socket);
+    command.onResponse.accept(message);
   }
 
 }

@@ -16,12 +16,6 @@ class App extends Component {
     super(props);
     this.state = {currentPage: "home"};
     this.socket = new DC4WebSocket();
-    this.socket.onmessage = this.onmessage;
-  }
-
-  onmessage = (event) => {
-    console.log("Received an message from server! Here it is:");
-    console.log(event);
   }
 
   loadPage = (page) => {

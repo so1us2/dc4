@@ -7,8 +7,9 @@ import java.util.UUID;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
 
-import bowser.websocket.ClientSocket;
 import dc4.arch.HumanPlayer;
+import dc4.websockets.DC4ClientSocket;
+import dc4.websockets.WebSocketMessage;
 import dc4.websockets.transaction.BiTransaction;
 import dc4.websockets.transaction.Transaction;
 import ox.Json;
@@ -72,39 +73,20 @@ public class MatchmakingService {
             return null;
           })
           .execute();
-
-      if (!connectionService.verifyConnection(player1.socket)) {
-        Log.debug("Player 1, " + player1.name + " failed verification.");
-        searchingPlayers.addFirst(player2);
-        continue;
-      } else if (!connectionService.verifyConnection(player2.socket)) {
-        searchingPlayers.addFirst(player1);
-        continue;
-      }
-
-      sendMatchFound(player1);
-      sendMatchFound(player2);
-      gameService.startGame(player1, player2);
-
     }
   }
 
-  public void startSearch(String name, ClientSocket socket) {
+  public void startSearch(String name, DC4ClientSocket socket) {
     HumanPlayer player = new HumanPlayer(name, socket);
     player.uuid = UUID.randomUUID();
     uuidToPlayer.put(player.uuid, player);
     searchingPlayers.add(player);
-    socket.send(Json.object()
-        .with("channel", "search")
-        .with("command", "token")
-        .with("data", Json.object()
-            .with("token", player.uuid.toString())));
+    socket.send(new WebSocketMessage("search", "token", Json.object().with("token", player.uuid.toString())));
   }
 
-  public void stopSearch(UUID uuid, ClientSocket socket) {
-
+  public void stopSearch(UUID uuid, DC4ClientSocket socket) {
     if (!uuidToPlayer.containsKey(uuid)) {
-      socket.send(Json.object().with("message", "Could not find token " + uuid));
+      socket.send(WebSocketMessage.plainMessage("Could not find token " + uuid));
       return;
     }
     HumanPlayer player = uuidToPlayer.get(uuid);
@@ -114,21 +96,17 @@ public class MatchmakingService {
       searchingPlayers.remove(player);
     }
 
-    socket.send(Json.object().with("message", "Removed player " + player.name + " from search queue."));
+    socket.send(WebSocketMessage.plainMessage("Removed player " + player.name + " from search queue."));
   }
 
   private void returnToQueue(HumanPlayer player) {
     searchingPlayers.addFirst(player);
-    player.socket.send(Json.object().with("channel", "matchmaking").with("command", "opponentDidNotAccept"));
-  }
-
-  private void sendMatchFound(HumanPlayer player) {
-    player.socket.send(Json.object().with("channel", "matchmaking").with("command", "matchFound"));
+    player.socket.send(new WebSocketMessage("matchmaking", "opponentDidNotAccept"));
   }
 
   private Transaction<Boolean> accept(HumanPlayer player) {
     return new Transaction<Boolean>(player.socket)
-        .message(Json.object().with("channel", "matchmaking").with("command", "accept").with())
+        .message(new WebSocketMessage("matchmaking", "accept"))
         .setTimeoutMillis(ACCEPT_TIME_MILLIS)
         .onResponse(json -> {
           if (!json.hasKey("response")) {

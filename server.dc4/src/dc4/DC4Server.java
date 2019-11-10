@@ -17,7 +17,10 @@ public class DC4Server {
 
   public void start() {
 
-    new WebServer("DC4", PORT, true).controller(new TestAPI()).start();
+    new WebServer("DC4", PORT, true)
+        .controller(new TestAPI())
+        .start();
+
     Log.debug("API Server running on port %d", PORT);
 
     new DC4WebSockets()

@@ -1,46 +1,55 @@
 package dc4.websockets;
 
-import static com.google.common.base.Preconditions.checkState;
-
-import java.util.Map;
 import java.util.UUID;
 
-import com.google.common.collect.Maps;
-
-import dc4.arch.Game;
+import dc4.service.GameService;
+import ox.Json;
 
 public class GameListener extends WebSocketListener {
 
   private static final GameListener instance = new GameListener();
 
-  private final Map<UUID, Game> games = Maps.newHashMap();
+  private final GameService gameService = GameService.get();
 
   private GameListener() {
     super("game");
+    command(testRequest);
   }
 
   public static GameListener get() {
     return instance;
   }
 
-  public void register(Game game) {
-    checkState(!games.containsKey(game.uuid));
-    games.put(game.uuid, game);
+  private Command testRequest = new Command(
+      "testRequest",
+      message -> isValidGameMessageStructure(message) && message.data.has("a"),
+      message -> gameService.handleTestRequest(new GameMessage(message)));
+
+  private boolean isValidGameMessageStructure(WebSocketMessage message) {
+    return message.data.hasKey("gameUUID") && message.data.hasKey("playerUUID");
   }
 
-  @Override
-  protected void handle(WebSocketMessage message) {
+  public class GameMessage {
+    public String command;
+    public UUID gameUUID;
+    public UUID playerUUID;
+    public Json data;
 
-    if (!message.data.has("token")) {
-      message.socket.send(WebSocketMessage.plainMessage("Unable to process this command without a token."));
+    public GameMessage(WebSocketMessage message) {
+      this.command = message.command;
+      this.gameUUID = UUID.fromString(message.data.get("gameUUID"));
+      this.playerUUID = UUID.fromString(message.data.get("playerUUID"));
+      this.data = message.data.remove("gameUUID").remove("playerUUID");
     }
 
-    UUID uuid = UUID.fromString(message.data.get("token"));
-    if (!games.containsKey(uuid)) {
-      message.socket.send(WebSocketMessage.plainMessage("Invalid token."));
+    @Override
+    public String toString() {
+      return toJson().toString();
     }
 
-    games.get(uuid).handle(message);
+    public Json toJson() {
+      return Json.object().with("command", command).with("gameUUID", gameUUID).with("playerUUID", playerUUID)
+          .with("data", data);
+    }
   }
-
 }
