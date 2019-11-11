@@ -1,4 +1,4 @@
-import DC4WebSocket from '/websockets/DC4WebSocket';
+import DC4WebSocket from '../../websockets/DC4WebSocket';
 
 export default class AppManager {
 
@@ -7,8 +7,10 @@ export default class AppManager {
   }
 
   manageState = (component) => {
-    this.setState = component.setState;
+    this.component = component;
   }
+
+  getInitialState = () => {return {currentPage: "home"}};
 
   loadPage = (page) => {
     this.setState({currentPage: page});

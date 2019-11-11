@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import DC4WebSocket from '../websockets/DC4WebSocket';
-
 // import ExamplePage from './ExamplePage';
 import HomePage from '../HomePage/HomePage';
 import HomePageManager from '../HomePage/HomePageManager';
@@ -17,16 +15,17 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.props.manager.manageState(this);
+    this.state = this.props.manager.getInitialState();
   }
 
   renderPage = () => {
     switch(this.state.currentPage) {
       case "home":
-        return (<HomePage manager={new HomePageManager(this.manager)}/>);
+        return (<HomePage manager={new HomePageManager(this.props.manager)}/>);
       case "playHuman":
-        return (<PlayHumanPage manager={new PlayHumanPageManager(this.manager)}/>);
+        return (<PlayHumanPage manager={new PlayHumanPageManager(this.props.manager)}/>);
       case "playBot":
-        return (<PlayBotPage manager={new PlayBotPageManager(this.manager)}/>);
+        return (<PlayBotPage manager={new PlayBotPageManager(this.props.manager)}/>);
       default:
         throw new Error("Unknown page: " + this.state.currentPage);
     }

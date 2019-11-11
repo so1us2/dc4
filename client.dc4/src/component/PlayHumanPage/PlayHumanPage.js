@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import AcceptPanel from './AcceptPanel/AcceptPanel';
+import AcceptPanelManager from './AcceptPanel/AcceptPanelManager';
+
 import classes from './PlayHumanPage.css';
 
 export default class PlayHumanPage extends Component {
