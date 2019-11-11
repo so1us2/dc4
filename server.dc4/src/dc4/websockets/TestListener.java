@@ -16,10 +16,17 @@ public class TestListener extends WebSocketListener {
 
   private TestListener() {
     super("test");
+    command(testCommand);
   }
 
+  private Command testCommand = new Command("test",
+      message -> true,
+      message -> {
+        testService.handle(++count);
+      });
+
   @Override
-  protected void handle(WebSocketMessage message) {
+  public void handle(WebSocketMessage message) {
     testService.handle(++count);
   }
 
