@@ -1,4 +1,4 @@
-
+import DC4WebSocket from '/websockets/DC4WebSocket';
 
 export default class AppManager {
 

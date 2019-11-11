@@ -6,9 +6,6 @@ module.exports = {
     path.resolve(__dirname, 'client', 'index.jsx')
   ],
   resolve: {
-    alias: {
-      Web: path.resolve(__dirname, 'src', 'dc4', 'web')
-    },
     modules: [path.resolve(__dirname, 'node_modules')],
     extensions: ['*', '.js', '.jsx'],
   },

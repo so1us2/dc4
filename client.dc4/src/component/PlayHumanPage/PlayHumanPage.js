@@ -26,7 +26,7 @@ export default class PlayHumanPage extends Component {
       return (
         <div>
           <button onClick={this.props.manager.search}>Search</button>
-          <button onClick={this.props.manager.loadHomePage}}>Back to Home</button>
+          <button onClick={this.props.manager.loadHomePage}>Back to Home</button>
         </div>
       );
     }
