@@ -1,5 +1,5 @@
 {
-  "name": "DC4 Client",
+  "name": "dc4-client",
   "version": "1.0.0",
   "description": "React skeleton with only stuff I understand.",
   "main": "index.js",
