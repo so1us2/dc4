@@ -9,3 +9,7 @@
 .PlayHumanPage button {
   margin-right: 8px;
 }
+
+.PlayHumanPage button.cancel-search {
+  background-color: Red;
+}

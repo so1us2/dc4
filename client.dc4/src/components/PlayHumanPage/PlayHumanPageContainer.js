@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 
-import 'styles/PlayHumanPage.css';
+import PlayHumanPage from 'components/PlayHumanPage/PlayHumanPage';
 
-export default class PlayHumanPage extends Component {
+export default class HomePageContainer extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       searching: false,
       error: false,
       awaitingAccept: false
     };
-
     this.props.socket.listen("search", "token", this.getSearchToken);
     this.props.socket.listen("matchmaking", "accept", this.clientAccept)
+  }
+
+  changeName = (newName) => {
+    this.setState({name: newName});
   }
 
   search = () => {
@@ -56,35 +58,16 @@ export default class PlayHumanPage extends Component {
     });
   }
 
-  renderButtonPanel = () => {
-    if (this.state.searching) {
-      return (<button onClick={this.cancelSearch} style={{backgroundColor: "red"}}>Cancel</button>);
-    } else {
-      return (
-        <div>
-          <button onClick={this.search}>Search</button>
-          <button onClick={() => {this.props.loadPage("home");}}>Back to Home</button>
-        </div>
-      );
-    }
-  }
+  loadPage = this.props.loadPage;
 
   render () {
     return (
-      <div className="PlayHumanPage">
-        <h1>Play Human Page!</h1>
-        <br/>
-        <div>Enter your name.</div>
-        <br/>
-        <input
-          type="text"
-          error={this.state.error ? "true" : undefined}
-          onChange={(e) => this.setState({name: e.target.value})}
-        />
-        <br/>
-        {this.renderButtonPanel()}
-        {this.state.awaitingAccept ? <AcceptPanel socket={this.props.socket} /> : null}
-      </div>
+      <PlayHumanPage
+        container={this}
+        searching={this.state.searching}
+        awaitingAccept={this.state.awaitingAccept}
+        error={this.state.error}
+      />
     );
   }
 }

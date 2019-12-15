@@ -4,7 +4,7 @@ import DC4WebSocket from 'websockets/DC4WebSocket';
 
 // import ExamplePage from './ExamplePage';
 import HomePageContainer from 'components/HomePage/HomePageContainer';
-import PlayHumanPage from 'components/PlayHumanPage';
+import PlayHumanPageContainer from 'components/PlayHumanPage/PlayHumanPageContainer';
 import PlayBotPage from 'components/PlayBotPage';
 
 import 'styles/App.css';
@@ -26,7 +26,7 @@ class App extends Component {
       case "home":
         return (<HomePageContainer loadPage={this.loadPage} socket={this.socket}/>);
       case "playHuman":
-        return (<PlayHumanPage loadPage={this.loadPage} socket={this.socket}/>);
+        return (<PlayHumanPageContainer loadPage={this.loadPage} socket={this.socket}/>);
       case "playBot":
         return (<PlayBotPage />);
       default:
