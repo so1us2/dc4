@@ -7,8 +7,7 @@ import HomePage from 'components/HomePage';
 import PlayHumanPage from 'components/PlayHumanPage';
 import PlayBotPage from 'components/PlayBotPage';
 
-
-import classes from 'styles/App.css';
+import 'styles/App.css';
 
 class App extends Component {
 
@@ -37,7 +36,7 @@ class App extends Component {
 
   render () {
     return (
-      <div className={classes.App}>
+      <div className="App">
         {this.renderCurrentPage()}
       </div>
     );
