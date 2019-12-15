@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import classes from 'styles/PlayHumanPage.css';
+import 'styles/PlayHumanPage.css';
 
 export default class PlayHumanPage extends Component {
 
@@ -71,7 +71,7 @@ export default class PlayHumanPage extends Component {
 
   render () {
     return (
-      <div className={classes.PlayHumanPage}>
+      <div className="PlayHumanPage">
         <h1>Play Human Page!</h1>
         <br/>
         <div>Enter your name.</div>

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import DC4WebSocket from 'websockets/DC4WebSocket';
 
 // import ExamplePage from './ExamplePage';
-import HomePage from 'components/HomePage';
+import HomePageContainer from 'components/HomePage/HomePageContainer';
 import PlayHumanPage from 'components/PlayHumanPage';
 import PlayBotPage from 'components/PlayBotPage';
 
@@ -24,7 +24,7 @@ class App extends Component {
   renderCurrentPage = () => {
     switch(this.state.currentPage) {
       case "home":
-        return (<HomePage loadPage={this.loadPage} socket={this.socket}/>);
+        return (<HomePageContainer loadPage={this.loadPage} socket={this.socket}/>);
       case "playHuman":
         return (<PlayHumanPage loadPage={this.loadPage} socket={this.socket}/>);
       case "playBot":
