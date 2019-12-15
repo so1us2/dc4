@@ -63,6 +63,7 @@ public class MatchmakingService {
       new BiTransaction<Boolean, Boolean, Void>(accept(player1), accept(player2))
           .waitAll()
           .onComplete((r1, r2) -> {
+            Log.debug("onComplete called with %s, %s", r1, r2);
             if (r1 && r2) {
               gameService.startGame(player1, player2);
             } else if (r1 && !r2) {

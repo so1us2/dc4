@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.function.BiFunction;
 
+import ox.Log;
 import ox.Threads;
 
 /**
@@ -70,6 +71,10 @@ public class BiTransaction<T, S, R> {
       Thread.yield();
       continue;
     }
+
+    Object r1 = t1.getResult();
+    Object r2 = t2.getResult();
+    Log.debug("Bitransaction received response %s from T1 and %s from T2.", r1, r2);
 
     result = onComplete.apply(t1.getResult(), t2.getResult());
 

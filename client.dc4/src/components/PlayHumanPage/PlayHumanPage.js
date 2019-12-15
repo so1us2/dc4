@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import AcceptPanelContainer from './AcceptPanelContainer';
+
 import 'styles/PlayHumanPage.css';
 
 export default class PlayHumanPage extends Component {
@@ -33,7 +35,7 @@ export default class PlayHumanPage extends Component {
         />
         <br/>
         {this.renderButtonPanel()}
-        {this.props.awaitingAccept ? <AcceptPanel socket={this.props.socket} /> : null}
+        <AcceptPanelContainer container={this.props.container} socket={this.props.socket} awaitingAccept={this.props.awaitingAccept}/>
       </div>
     );
   }
