@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import classes from './PlayHumanPage.css';
+import classes from 'styles/PlayHumanPage.css';
 
 export default class PlayHumanPage extends Component {
 

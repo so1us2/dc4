@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
-import DC4WebSocket from '../websockets/DC4WebSocket';
+import DC4WebSocket from 'websockets/DC4WebSocket';
 
 // import ExamplePage from './ExamplePage';
-import HomePage from './HomePage';
-import PlayHumanPage from './PlayHumanPage';
-import PlayBotPage from './PlayBotPage';
+import HomePage from 'components/HomePage';
+import PlayHumanPage from 'components/PlayHumanPage';
+import PlayBotPage from 'components/PlayBotPage';
 
 
-import classes from './App.css';
+import classes from 'styles/App.css';
 
 class App extends Component {
 

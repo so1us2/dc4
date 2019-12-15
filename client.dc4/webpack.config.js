@@ -18,7 +18,15 @@ module.exports = {
       }
     ]
   },
-  resolve: { extensions: ["*", ".js", ".jsx"] },
+  resolve: {
+    modules: [path.resolve(__dirname, './src'), 'node_modules'],
+    extensions: ["*", '.js', '.jsx', '.json'],
+    alias: {
+      styles: path.resolve(__dirname, './src/components/styles'),
+      components: path.resolve(__dirname, './src/components'),
+      websockets: path.resolve(__dirname, './src/websockets')
+    }
+  },
   output: {
     path: path.resolve(__dirname, "dist/"),
     publicPath: "/dist/",
