@@ -12,6 +12,23 @@ export default class GamePageContainer extends Component {
     this.playerUUID = props.gameStartData.playerUUID;
     this.position = props.gameStartData.position;
     this.state = {counter: 0};
+
+    this.props.socket.listen("game", "testResponse", this.testResponseHandler);
+  }
+
+  incrementCounter = () => {
+    this.props.socket.send({
+      channel: "game",
+      command: "testRequest",
+      data: {
+        gameUUID: this.gameUUID,
+        playerUUID: this.playerUUID
+      }
+    });
+  };
+
+  testResponseHandler = (data) => {
+    this.setState({counter: data.counter});
   }
 
   render() {

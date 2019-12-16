@@ -10,6 +10,7 @@ export default class GamePage extends Component {
         <h3>Position: {this.props.position}</h3>
         <h3>Your name: we haven't implemented this yet.</h3>
         <h3>Other player: we haven't implemented this yet.</h3>
+        <button onClick={this.props.container.incrementCounter}>Click me.</button>
       </div>
     );
   }
