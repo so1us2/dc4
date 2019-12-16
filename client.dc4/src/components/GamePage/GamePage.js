@@ -1,16 +1,17 @@
 import React, {Component} from "react";
 
+import InformationPanel from './InformationPanel';
+import GamePanel from './GamePanel'
+
+import "styles/GamePage.css";
+
 export default class GamePage extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Game Page</h1>
-        <h3>Counter: {this.props.counter}</h3>
-        <h3>Position: {this.props.position}</h3>
-        <h3>Your name: we haven't implemented this yet.</h3>
-        <h3>Other player: we haven't implemented this yet.</h3>
-        <button onClick={this.props.container.incrementCounter}>Click me.</button>
+      <div className="GamePage">
+        <InformationPanel counter={this.props.counter} position={this.props.position} container={this.props.container} />
+        <GamePanel />
       </div>
     );
   }

@@ -7,6 +7,7 @@ import HomePageContainer from 'components/HomePage/HomePageContainer';
 import PlayHumanPageContainer from 'components/PlayHumanPage/PlayHumanPageContainer';
 import GamePageContainer from 'components/GamePage/GamePageContainer';
 import PlayBotPage from 'components/PlayBotPage';
+import TestPage from 'components/TestPage';
 
 import 'styles/App.css';
 
@@ -14,7 +15,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {currentPage: "home"};
+    this.state = {currentPage: "playHuman"};
     this.socket = new DC4WebSocket();
   }
 
@@ -37,6 +38,8 @@ class App extends Component {
         return (<GamePageContainer gameStartData={this.state.gameStartData} socket={this.socket} />);
       case "playBot":
         return (<PlayBotPage />);
+      case "test":
+        return (<TestPage />);
       default:
         throw new Error("Unknown page: " + this.state.currentPage);
     }

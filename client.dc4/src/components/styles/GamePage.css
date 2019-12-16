@@ -1,0 +1,21 @@
+.GamePage {
+  height: 100vh;
+  vertical-align: middle;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.InformationPanel {
+  flex: 1 0 0;
+}
+
+.GamePanel {
+  flex: 2 0 0;
+}
+
+.GamePanel img {
+  max-height: 300px;
+  max-width: 350px;
+  vertical-align: middle;
+}

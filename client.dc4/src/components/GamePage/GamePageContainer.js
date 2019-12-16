@@ -22,7 +22,8 @@ export default class GamePageContainer extends Component {
       command: "testRequest",
       data: {
         gameUUID: this.gameUUID,
-        playerUUID: this.playerUUID
+        playerUUID: this.playerUUID,
+        a: 42
       }
     });
   };
