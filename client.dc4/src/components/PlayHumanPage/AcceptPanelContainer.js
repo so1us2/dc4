@@ -18,4 +18,4 @@ export default class AcceptPanelContainer extends Component {
     }
   }
 
-}
+};

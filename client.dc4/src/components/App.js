@@ -5,6 +5,7 @@ import DC4WebSocket from 'websockets/DC4WebSocket';
 // import ExamplePage from './ExamplePage';
 import HomePageContainer from 'components/HomePage/HomePageContainer';
 import PlayHumanPageContainer from 'components/PlayHumanPage/PlayHumanPageContainer';
+import GamePageContainer from 'components/GamePage/GamePageContainer';
 import PlayBotPage from 'components/PlayBotPage';
 
 import 'styles/App.css';
@@ -17,6 +18,11 @@ class App extends Component {
     this.socket = new DC4WebSocket();
   }
 
+  startGame = (data) => {
+    console.log("Received game start data: " + data);
+    this.setState({currentPage: "game", gameStartData: data});
+  }
+
   loadPage = (page) => {
     this.setState({currentPage: page});
   }
@@ -24,9 +30,11 @@ class App extends Component {
   renderCurrentPage = () => {
     switch(this.state.currentPage) {
       case "home":
-        return (<HomePageContainer loadPage={this.loadPage} socket={this.socket}/>);
+        return (<HomePageContainer loadPage={this.loadPage} socket={this.socket} />);
       case "playHuman":
-        return (<PlayHumanPageContainer loadPage={this.loadPage} socket={this.socket}/>);
+        return (<PlayHumanPageContainer loadPage={this.loadPage} startGame={this.startGame} socket={this.socket} />);
+      case "game":
+        return (<GamePageContainer gameStartData={this.state.gameStartData} socket={this.socket} />);
       case "playBot":
         return (<PlayBotPage />);
       default:

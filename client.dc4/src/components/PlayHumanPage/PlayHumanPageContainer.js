@@ -12,7 +12,8 @@ export default class HomePageContainer extends Component {
       awaitingAccept: false
     };
     this.props.socket.listen("search", "token", this.getSearchToken);
-    this.props.socket.listen("matchmaking", "accept", this.awaitAccept)
+    this.props.socket.listen("matchmaking", "accept", this.awaitAccept);
+    this.props.socket.listen("game", "start", this.startGame);
   }
 
   changeName = (newName) => {
@@ -48,6 +49,8 @@ export default class HomePageContainer extends Component {
     return;
   };
 
+  startGame = this.props.startGame;
+
   acceptMatch = () => {
     console.log("Accept method called in PlayHumanPageContainer.");
     this.props.socket.send({
@@ -59,7 +62,7 @@ export default class HomePageContainer extends Component {
       }
     });
     this.setState({awaitingAccept: false});
-  }
+  };
 
   rejectMatch = () => {
     console.log("Reject method called in PlayHumanPageContainer.");
@@ -71,7 +74,7 @@ export default class HomePageContainer extends Component {
         response: "reject"
       }
     });
-  }
+  };
 
   cancelSearch = () => {
     this.setState({searching: false});
@@ -83,7 +86,7 @@ export default class HomePageContainer extends Component {
       }
     });
     this.setState({awaitingAccept: false});
-  }
+  };
 
   loadPage = this.props.loadPage;
 
