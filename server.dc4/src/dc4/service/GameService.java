@@ -9,6 +9,8 @@ import dc4.arch.HumanPlayer;
 import dc4.arch.game.Game;
 import dc4.arch.game.GameHandler;
 import dc4.websockets.GameListener.GameMessage;
+import dc4.websockets.WebSocketMessage;
+import ox.Json;
 
 public class GameService {
 
@@ -21,12 +23,21 @@ public class GameService {
   }
 
   public void startGame(HumanPlayer player1, HumanPlayer player2) {
-    UUID handlerUUID = UUID.randomUUID();
-    gameHandlers.put(handlerUUID, new GameHandler(handlerUUID, new Game(player1, player2)));
+    UUID gameUUID = UUID.randomUUID();
+    gameHandlers.put(gameUUID, new GameHandler(gameUUID, new Game(player1, player2)));
+    player1.socket.send(new WebSocketMessage("game", "start", Json.object()
+        .with("gameUUID", gameUUID)
+        .with("playerUUID", player1.uuid)
+        .with("position", "FIRST")));
+    player2.socket.send(new WebSocketMessage("game", "start", Json.object()
+        .with("gameUUID", gameUUID)
+        .with("playerUUID", player2.uuid)
+        .with("position", "SECOND")));
   }
 
   public void handleTestRequest(GameMessage message) {
-    gameHandlers.get(message.gameUUID).processTestRequest(message);
+    GameHandler gameHandler = gameHandlers.get(message.gameUUID);
+    gameHandler.processTestRequest(message);
   }
 
 }

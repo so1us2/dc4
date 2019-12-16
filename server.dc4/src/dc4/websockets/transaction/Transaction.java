@@ -97,6 +97,7 @@ public class Transaction<T> {
 
     if (receivedResponse) {
       result = onResponse.apply(responseJson);
+      requestSuccessful = true;
     }
 
     if (!requestSuccessful) {

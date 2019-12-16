@@ -3,6 +3,8 @@ package dc4.arch.game;
 import java.util.UUID;
 
 import dc4.websockets.GameListener.GameMessage;
+import dc4.websockets.WebSocketMessage;
+import ox.Json;
 import ox.Log;
 
 /**
@@ -20,6 +22,12 @@ public class GameHandler {
   }
 
   public void processTestRequest(GameMessage message) {
-    Log.debug("Congratulation.  Control made it to a Game Handler which got the message: %s", message);
+    Log.debug("Congratulations.  Control made it to a Game Handler which got the message: %s", message);
+    broadcast(new WebSocketMessage("game", "testResponse", Json.object().with("counter", ++game.counter)));
+  }
+
+  public void broadcast(WebSocketMessage message) {
+    game.player1.socket.send(message);
+    game.player2.socket.send(message);
   }
 }

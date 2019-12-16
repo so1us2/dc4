@@ -7,7 +7,10 @@ import dc4.arch.HumanPlayer;
 public class Game {
 
   public final HumanPlayer player1;
+
   public final HumanPlayer player2;
+
+  public int counter = 0;
 
   public Game(HumanPlayer player1, HumanPlayer player2) {
     this.player1 = checkNotNull(player1);

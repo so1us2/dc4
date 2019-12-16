@@ -65,7 +65,11 @@ public class MatchmakingService {
           .onComplete((r1, r2) -> {
             Log.debug("onComplete called with %s, %s", r1, r2);
             if (r1 && r2) {
-              gameService.startGame(player1, player2);
+              if (Math.random() > 0.5) {
+                gameService.startGame(player1, player2);
+              } else {
+                gameService.startGame(player2, player1);
+              }
             } else if (r1 && !r2) {
               returnToQueue(player1);
             } else if (!r1 && r2) {
@@ -110,6 +114,7 @@ public class MatchmakingService {
         .message(new WebSocketMessage("matchmaking", "accept"))
         .setTimeoutMillis(ACCEPT_TIME_MILLIS)
         .onResponse(json -> {
+          Log.debug("Accept transaction response: %s", json.toString());
           if (!json.hasKey("response")) {
             return false;
           } else if (json.get("response").equalsIgnoreCase("accept")) {
@@ -118,7 +123,10 @@ public class MatchmakingService {
             return false;
           }
         })
-        .onFail(() -> false);
+        .onFail(() -> {
+          Log.debug("Accept transaction failed.");
+          return false;
+        });
   }
 
 }

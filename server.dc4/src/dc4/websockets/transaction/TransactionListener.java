@@ -8,6 +8,7 @@ import dc4.websockets.Command;
 import dc4.websockets.WebSocketListener;
 import dc4.websockets.WebSocketMessage;
 import ox.Json;
+import ox.Log;
 
 public class TransactionListener extends WebSocketListener {
 
@@ -29,6 +30,7 @@ public class TransactionListener extends WebSocketListener {
   private Command response = new Command("response",
       message -> message.data.hasKey("transactionUUID"), // response data must have a UUID.
       message -> {
+        Log.debug("Transaction Listener processing message: %s", message);
         UUID uuid = UUID.fromString(message.data.get("transactionUUID"));
         message.data.remove("transactionUUID");
         Transaction<?> transaction;
