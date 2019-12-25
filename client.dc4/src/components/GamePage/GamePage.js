@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 
 import InformationPanel from './InformationPanel';
-import GamePanel from './GamePanel'
+import GamePanel from './GamePanel';
 
 import "styles/GamePage.css";
 
