@@ -13,9 +13,3 @@
 .GamePanel {
   flex: 2 0 0;
 }
-
-.GamePanel img {
-  max-height: 300px;
-  max-width: 350px;
-  vertical-align: middle;
-}

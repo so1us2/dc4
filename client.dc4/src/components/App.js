@@ -15,7 +15,13 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {currentPage: "playHuman"};
+    this.state = {
+      currentPage: "game", // Sets which page to load.
+      gameStartData: {     // This is needed to make the GamePage work.
+        playerUUID: "abc123",
+        position: "FIRST"
+      }
+    };
     this.socket = new DC4WebSocket();
   }
 

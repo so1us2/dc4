@@ -34,7 +34,7 @@ export default class GamePageContainer extends Component {
 
   render() {
     return (
-      <GamePage container={this} position={this.position} counter={this.state.counter} />
+      <GamePage container={this} position={this.position} counter={this.state.counter} gameState={{message: "hello world."}}/>
     );
   }
 }

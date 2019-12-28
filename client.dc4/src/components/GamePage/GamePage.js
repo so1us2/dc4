@@ -11,7 +11,7 @@ export default class GamePage extends Component {
     return (
       <div className="GamePage">
         <InformationPanel counter={this.props.counter} position={this.props.position} container={this.props.container} />
-        <GamePanel />
+        <GamePanel gameState={this.props.gameState}/>
       </div>
     );
   }
