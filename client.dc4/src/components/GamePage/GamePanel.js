@@ -1,13 +1,47 @@
 import React, {Component} from "react";
 
 export default class GamePanel extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {x: 0, y: 0, hoveredCol: null};
+  }
+
+  getCanvasPosition = (evt) => {
+    // mouse position on auto-scaling canvas
+    // https://stackoverflow.com/a/10298843/1232793
+    const svg = document.getElementById('game-panel');
+    const point = svg.createSVGPoint();
+    point.x = evt.clientX;
+    point.y = evt.clientY;
+    const { x, y } = point.matrixTransform(svg.getScreenCTM().inverse());
+    return {x, y};
+  };
+
+  onMouseMove = (evt) => {
+    const {x,y} = this.getCanvasPosition(evt);
+    const col = Math.floor(x);
+    this.setState({"x": x, "y": y});
+    if (0 <= col && col < 7) {
+      this.setState({"hoveredCol": col});
+    } else {
+      this.setState({"hoveredCol": null});
+    }
+  }
+
+  onMouseOut = (evt) => {
+    this.setState({"hoveredCol": null});
+  }
+
   render() {
     return (
       <div className="GamePanel">
-        <svg viewBox="0 0 7 7" width="500px" height="500px">
+        <div>x: {this.state.x}</div>
+        <div>y: {this.state.y}</div>
+        <svg id="game-panel" viewBox="0 0 7 7" width="500px" height="500px" onMouseMove={this.onMouseMove} onMouseOut={this.onMouseOut}>
           <ConnectFourBoard />
           <Pieces gameState={this.props.gameState} />
-          <Arrows />
+          <Arrows hoveredCol={this.state.hoveredCol} />
         </svg>
       </div>
     )
@@ -58,7 +92,7 @@ class Arrows extends Component {
   renderArrows() {
     let ret = [];
     for (let i = 0; i < 7; i++) {
-      ret.push(<Arrow col={i} />);
+      ret.push(<Arrow col={i} hovered={this.props.hoveredCol==i}/>);
     }
     return ret;
   }
@@ -73,12 +107,16 @@ class Arrows extends Component {
 
 class Arrow extends Component {
   render() {
-    return (
-      <svg x={this.props.col} width="1" height="1">
-        <g>
-          <path d="m0.29523,0.20324c0.40758,-0.00195 0.40563,-0.00195 0.40487,-0.00238c-0.00076,-0.00043 0.00076,0.50357 0,0.50314c-0.00076,-0.00043 0.10217,-0.00152 0.10141,-0.00195c-0.00076,-0.00043 -0.30346,0.20324 -0.30422,0.20282c-0.00076,-0.00043 -0.29956,-0.20434 -0.30032,-0.20477c-0.00076,-0.00043 0.10607,0.00238 0.10531,0.00195c-0.00076,-0.00043 -0.00704,-0.49881 -0.00704,-0.49881z" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0.005" stroke="#000000" fill="#007f00"/>
-        </g>
-      </svg>
-    );
+    if (!this.props.hovered) {
+      return null;
+    } else {
+      return (
+        <svg x={this.props.col} width="1" height="1">
+          <g>
+            <path d="m0.29523,0.20324c0.40758,-0.00195 0.40563,-0.00195 0.40487,-0.00238c-0.00076,-0.00043 0.00076,0.50357 0,0.50314c-0.00076,-0.00043 0.10217,-0.00152 0.10141,-0.00195c-0.00076,-0.00043 -0.30346,0.20324 -0.30422,0.20282c-0.00076,-0.00043 -0.29956,-0.20434 -0.30032,-0.20477c-0.00076,-0.00043 0.10607,0.00238 0.10531,0.00195c-0.00076,-0.00043 -0.00704,-0.49881 -0.00704,-0.49881z" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0.005" stroke="#000000" fill="#007f00"/>
+          </g>
+        </svg>
+      );
+    }
   }
 }
