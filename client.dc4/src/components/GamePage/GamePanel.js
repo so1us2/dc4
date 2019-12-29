@@ -30,7 +30,12 @@ export default class GamePanel extends Component {
   }
 
   onMouseOut = (evt) => {
-    this.setState({"hoveredCol": null});
+    const {x,y} = this.getCanvasPosition(evt);
+    if (0 < x && x < 7 && 0 < y && y < 7) {
+      return;
+    } else {
+      this.setState({"hoveredCol": null});
+    }
   }
 
   render() {
