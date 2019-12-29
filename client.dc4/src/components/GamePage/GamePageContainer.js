@@ -12,7 +12,6 @@ export default class GamePageContainer extends Component {
     this.playerUUID = props.gameStartData.playerUUID;
     this.position = props.gameStartData.position;
     this.state = {counter: 0};
-
     this.props.socket.listen("game", "testResponse", this.testResponseHandler);
   }
 
