@@ -7,7 +7,7 @@ export default class GamePanel extends Component {
     this.state = {x: 0, y: 0, hoveredCol: null};
   }
 
-  getCanvasPosition = (evt) => {
+  getBoardPosition = (evt) => {
     // mouse position on auto-scaling canvas
     // https://stackoverflow.com/a/10298843/1232793
     const svg = document.getElementById('game-panel');
@@ -19,7 +19,7 @@ export default class GamePanel extends Component {
   };
 
   onMouseMove = (evt) => {
-    const {x,y} = this.getCanvasPosition(evt);
+    const {x,y} = this.getBoardPosition(evt);
     const col = Math.floor(x);
     this.setState({"x": x, "y": y});
     if (0 <= col && col < 7) {
@@ -30,7 +30,7 @@ export default class GamePanel extends Component {
   }
 
   onMouseOut = (evt) => {
-    const {x,y} = this.getCanvasPosition(evt);
+    const {x,y} = this.getBoardPosition(evt);
     if (0 < x && x < 7 && 0 < y && y < 7) {
       return;
     } else {
@@ -38,10 +38,31 @@ export default class GamePanel extends Component {
     }
   }
 
+  onClick = (evt) => {
+    if (!this.props.myTurn) {
+      console.log("Ignoring click because not my turn.");
+      return;
+    }
+    const {x,y} = this.getBoardPosition(evt);
+    const col = Math.floor(x);
+    if (col < 0 || col >= 7) {
+      return;
+    }
+    this.props.sendMove(col);
+  }
+
   render() {
     return (
       <div className="GamePanel">
-        <svg id="game-panel" viewBox="0 0 7 7" width="500px" height="500px" onMouseMove={this.onMouseMove} onMouseOut={this.onMouseOut}>
+        <svg
+            id="game-panel"
+            viewBox="0 0 7 7"
+            width="500px"
+            height="500px"
+            onMouseMove={this.onMouseMove}
+            onMouseOut={this.onMouseOut}
+            onClick={this.onClick}
+        >
           <ConnectFourBoard />
           <Pieces gameState={this.props.gameState} />
           {(this.props.myTurn) ? <Arrows hoveredCol={this.state.hoveredCol} /> : null}
