@@ -8,10 +8,17 @@ import "styles/GamePage.css";
 export default class GamePage extends Component {
 
   render() {
+    let gameState = this.props.gameState
     return (
       <div className="GamePage">
-        <InformationPanel gameState={this.props.gameState} container={this.props.container} />
-        <GamePanel gameState={this.props.gameState}/>
+        <InformationPanel
+          gameState={gameState}
+          container={this.props.container}
+        />
+        <GamePanel
+          gameState={gameState}
+          myTurn={gameState.currentTurn === gameState.position}
+        />
       </div>
     );
   }

@@ -44,7 +44,7 @@ export default class GamePanel extends Component {
         <svg id="game-panel" viewBox="0 0 7 7" width="500px" height="500px" onMouseMove={this.onMouseMove} onMouseOut={this.onMouseOut}>
           <ConnectFourBoard />
           <Pieces gameState={this.props.gameState} />
-          <Arrows hoveredCol={this.state.hoveredCol} />
+          {(this.props.myTurn) ? <Arrows hoveredCol={this.state.hoveredCol} /> : null}
         </svg>
       </div>
     )
