@@ -34,20 +34,27 @@ public class GameHandler {
       return;
     }
     player.socket = socket;
-    player.socket
-        .send(new WebSocketMessage("game", "reconnect", Json.object().with("gameState", getGameState(player))));
+    player.socket.send(
+            new WebSocketMessage("game", "reconnect", Json.object().with("gameState", getGameState(player.position))));
   }
 
   public void sendStartMessages() {
     game.player1.socket
-        .send(new WebSocketMessage("game", "start", Json.object().with("gameState", getGameState(game.player1))));
+        .send(new WebSocketMessage("game", "start", Json.object().with("gameState", getGameState(Position.FIRST))));
     game.player2.socket
-        .send(new WebSocketMessage("game", "start", Json.object().with("gameState", getGameState(game.player2))));
+        .send(new WebSocketMessage("game", "start", Json.object().with("gameState", getGameState(Position.SECOND))));
   }
 
   public void processTestRequest(GameMessage message) {
     Log.debug("GameHandler got the message: %s", message);
     broadcast(new WebSocketMessage("game", "testResponse", Json.object().with("counter", ++game.counter)));
+  }
+
+  public void processMoveRequest(Move move) {
+    Log.debug("GameHandler got the move: %s", move);
+    broadcast(new WebSocketMessage("game", "move", Json.object()
+        .with("move", move.toJson())
+        .with("gameState", getGameState(Position.UNDEFINED))));
   }
 
   public void broadcast(WebSocketMessage message) {
@@ -63,11 +70,13 @@ public class GameHandler {
     }
   }
 
-  private Json getGameState(HumanPlayer player) {
+  private Json getGameState(Position position) {
+    HumanPlayer player = game.getPlayer(position);
+
     return Json.object()
         .with("gameUUID", uuid)
-        .with("playerUUID", player.uuid)
-        .with("position", player.position.name())
+        .with("playerUUID", (player == null) ? null : player.uuid)
+        .with("position", position)
         .with("currentTurn", game.currentTurn)
         .with("counter", game.counter)
         .with("player1", game.player1.toJson())

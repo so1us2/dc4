@@ -1,11 +1,11 @@
 package dc4.arch;
 
-import static com.google.common.base.Preconditions.checkState;
 import static ox.util.Utils.checkNotEmpty;
 import static ox.util.Utils.normalize;
 
 import java.util.UUID;
 
+import dc4.arch.game.Position;
 import dc4.websockets.DC4ClientSocket;
 import ox.Json;
 
@@ -27,15 +27,6 @@ public class HumanPlayer {
     this.name = checkNotEmpty(normalize(name));
     this.uuid = uuid;
     this.socket = socket;
-  }
-
-  public static enum Position {
-    FIRST, SECOND, UNDEFINED;
-
-    public static Position other(Position position) {
-      checkState(position != UNDEFINED);
-      return position == FIRST ? SECOND : FIRST;
-    }
   }
 
   public Json toJson() {

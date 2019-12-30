@@ -14,6 +14,7 @@ public class GameListener extends WebSocketListener {
   private GameListener() {
     super("game");
     command(testRequest);
+    command(moveRequest);
     command(reconnectRequest);
   }
 
@@ -25,6 +26,11 @@ public class GameListener extends WebSocketListener {
       "testRequest",
       message -> isValidGameMessageStructure(message) && message.data.has("a"),
       message -> gameService.handleTestRequest(new GameMessage(message)));
+
+  private Command moveRequest = new Command(
+      "move",
+      message -> isValidGameMessageStructure(message) && message.data.has("move"),
+      message -> gameService.handleMove(new GameMessage(message)));
 
   private Command reconnectRequest = new Command(
       "reconnect",

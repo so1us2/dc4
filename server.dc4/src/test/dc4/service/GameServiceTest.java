@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import dc4.DC4Server;
 import dc4.arch.HumanPlayer;
-import dc4.arch.HumanPlayer.Position;
+import dc4.arch.game.Position;
 import dc4.service.GameService;
 import dc4.websockets.DC4WebSockets;
 import dc4.websockets.GameListener;
