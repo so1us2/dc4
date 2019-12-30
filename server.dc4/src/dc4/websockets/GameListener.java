@@ -14,6 +14,7 @@ public class GameListener extends WebSocketListener {
   private GameListener() {
     super("game");
     command(testRequest);
+    command(reconnectRequest);
   }
 
   public static GameListener get() {
@@ -24,6 +25,12 @@ public class GameListener extends WebSocketListener {
       "testRequest",
       message -> isValidGameMessageStructure(message) && message.data.has("a"),
       message -> gameService.handleTestRequest(new GameMessage(message)));
+
+  private Command reconnectRequest = new Command(
+      "reconnect",
+      this::isValidGameMessageStructure,
+      gameService::handleReconnectRequest
+      );
 
   private boolean isValidGameMessageStructure(WebSocketMessage message) {
     return message.data.hasKey("gameUUID") && message.data.hasKey("playerUUID");

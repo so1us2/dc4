@@ -82,9 +82,9 @@ public class MatchmakingService {
   }
 
   public void startSearch(String name, DC4ClientSocket socket) {
-    HumanPlayer player = new HumanPlayer(name, socket);
-    player.uuid = UUID.randomUUID();
-    uuidToPlayer.put(player.uuid, player);
+    UUID playerUUID = UUID.randomUUID();
+    HumanPlayer player = new HumanPlayer(name, playerUUID, socket);
+    uuidToPlayer.put(playerUUID, player);
     searchingPlayers.add(player);
     socket.send(new WebSocketMessage("search", "token", Json.object().with("token", player.uuid.toString())));
   }
