@@ -18,6 +18,7 @@ export default class GamePage extends Component {
         <GamePanel
           gameState={gameState}
           myTurn={gameState.currentTurn === gameState.position}
+          sendMove={this.props.container.sendMove}
         />
       </div>
     );

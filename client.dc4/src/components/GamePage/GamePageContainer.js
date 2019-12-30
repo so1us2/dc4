@@ -24,6 +24,21 @@ export default class GamePageContainer extends Component {
     });
   }
 
+  sendMove = (col) => {
+    this.props.socket.send({
+      channel: "game",
+      command: "move",
+      data: {
+        gameUUID: this.props.gameState.gameUUID,
+        playerUUID: this.props.gameState.playerUUID,
+        move: {
+          position: this.props.gameState.position,
+          column: col
+        }
+      }
+    });
+  }
+
   getPlayerName = () => {
     if (this.props.gameState.position === "FIRST") {
       return (this.props.gameState.player1.name);
