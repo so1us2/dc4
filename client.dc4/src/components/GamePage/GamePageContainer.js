@@ -8,7 +8,11 @@ export default class GamePageContainer extends Component {
     super(props);
     console.log("GamePageContainer constructor.  Props: ");
     console.log(props);
-    this.state = {gameState: this.props.gameState};
+    this.state = {
+      gameState: this.props.gameState,
+      lastMove: null,
+      moveAnimationStatus: "STOP"
+    };
     this.props.socket.listen("game", "testResponse", this.testResponseHandler);
     this.props.socket.listen("game", "move", this.moveHandler);
   }
@@ -68,7 +72,8 @@ export default class GamePageContainer extends Component {
   moveHandler = (data) => {
     this.setState({
       gameState: data.gameState,
-      lastMove: data.move
+      lastMove: data.move,
+      moveAnimationStatus: "START"
     });
   }
 
@@ -78,7 +83,8 @@ export default class GamePageContainer extends Component {
           container={this}
           gameState={this.state.gameState}
           position={this.props.position}
-          lastMove={this.state.lastMove} 
+          lastMove={this.state.lastMove}
+          moveAnimationStatus={this.state.moveAnimationStatus}
       />
     );
   }

@@ -22,6 +22,8 @@ export default class GamePage extends Component {
           position={this.props.position}
           myTurn={gameState.currentTurn === this.props.position}
           sendMove={this.props.container.sendMove}
+          animateLastMove={this.props.animateLastMove}
+          onAnimationComplete={this.props.onAnimationComplete}
         />
       </div>
     );
