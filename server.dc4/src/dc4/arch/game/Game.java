@@ -3,6 +3,7 @@ package dc4.arch.game;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import dc4.arch.HumanPlayer;
+import dc4.arch.HumanPlayer.Position;
 
 public class Game {
 
@@ -11,6 +12,8 @@ public class Game {
   public final HumanPlayer player2;
 
   public int counter = 0;
+
+  public Position currentTurn = Position.FIRST;
 
   public Game(HumanPlayer player1, HumanPlayer player2) {
     this.player1 = checkNotNull(player1);

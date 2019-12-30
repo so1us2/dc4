@@ -68,6 +68,7 @@ public class GameHandler {
         .with("gameUUID", uuid)
         .with("playerUUID", player.uuid)
         .with("position", player.position.name())
+        .with("currentTurn", game.currentTurn)
         .with("counter", game.counter)
         .with("player1", game.player1.toJson())
         .with("player2", game.player2.toJson());
