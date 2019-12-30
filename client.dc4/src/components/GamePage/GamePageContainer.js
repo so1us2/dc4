@@ -10,6 +10,7 @@ export default class GamePageContainer extends Component {
     console.log(props);
     this.state = {gameState: this.props.gameState};
     this.props.socket.listen("game", "testResponse", this.testResponseHandler);
+    this.props.socket.listen("game", "move", this.moveHandler);
   }
 
   incrementCounter = () => {
@@ -17,8 +18,8 @@ export default class GamePageContainer extends Component {
       channel: "game",
       command: "testRequest",
       data: {
-        gameUUID: this.props.gameState.gameUUID,
-        playerUUID: this.props.gameState.playerUUID,
+        gameUUID: this.props.gameUUID,
+        playerUUID: this.props.playerUUID,
         a: 42
       }
     });
@@ -29,10 +30,10 @@ export default class GamePageContainer extends Component {
       channel: "game",
       command: "move",
       data: {
-        gameUUID: this.props.gameState.gameUUID,
-        playerUUID: this.props.gameState.playerUUID,
+        gameUUID: this.props.gameUUID,
+        playerUUID: this.props.playerUUID,
         move: {
-          position: this.props.gameState.position,
+          position: this.props.position,
           column: col
         }
       }
@@ -40,7 +41,7 @@ export default class GamePageContainer extends Component {
   }
 
   getPlayerName = () => {
-    if (this.props.gameState.position === "FIRST") {
+    if (this.props.position === "FIRST") {
       return (this.props.gameState.player1.name);
     } else {
       return (this.props.gameState.player2.name);
@@ -48,7 +49,7 @@ export default class GamePageContainer extends Component {
   }
 
   getOtherPlayerName = () => {
-    if (this.props.gameState.position === "FIRST") {
+    if (this.props.position === "FIRST") {
       return (this.props.gameState.player2.name);
     } else {
       return (this.props.gameState.player1.name);
@@ -64,9 +65,21 @@ export default class GamePageContainer extends Component {
     });
   }
 
+  moveHandler = (data) => {
+    this.setState({
+      gameState: data.gameState,
+      lastMove: data.move
+    });
+  }
+
   render() {
     return (
-      <GamePage container={this} gameState={this.state.gameState}/>
+      <GamePage
+          container={this}
+          gameState={this.state.gameState}
+          position={this.props.position}
+          lastMove={this.state.lastMove} 
+      />
     );
   }
 }

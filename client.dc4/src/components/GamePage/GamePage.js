@@ -13,11 +13,14 @@ export default class GamePage extends Component {
       <div className="GamePage">
         <InformationPanel
           gameState={gameState}
+          position={this.props.position}
           container={this.props.container}
+          lastMove={this.props.lastMove}
         />
         <GamePanel
           gameState={gameState}
-          myTurn={gameState.currentTurn === gameState.position}
+          position={this.props.position}
+          myTurn={gameState.currentTurn === this.props.position}
           sendMove={this.props.container.sendMove}
         />
       </div>

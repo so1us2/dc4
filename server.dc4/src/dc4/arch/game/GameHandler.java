@@ -35,14 +35,26 @@ public class GameHandler {
     }
     player.socket = socket;
     player.socket.send(
-            new WebSocketMessage("game", "reconnect", Json.object().with("gameState", getGameState(player.position))));
+        new WebSocketMessage("game", "reconnect", Json.object()
+            .with("gameUUID", this.uuid)
+            .with("playerUUID", player.uuid)
+            .with("position", player.position)
+            .with("gameState", game.toJson())));
   }
 
   public void sendStartMessages() {
     game.player1.socket
-        .send(new WebSocketMessage("game", "start", Json.object().with("gameState", getGameState(Position.FIRST))));
+        .send(new WebSocketMessage("game", "start", Json.object()
+            .with("gameUUID", this.uuid)
+            .with("playerUUID", game.player1.uuid)
+            .with("position", game.player1.position)
+            .with("gameState", game.toJson())));
     game.player2.socket
-        .send(new WebSocketMessage("game", "start", Json.object().with("gameState", getGameState(Position.SECOND))));
+        .send(new WebSocketMessage("game", "start", Json.object()
+            .with("gameUUID", this.uuid)
+            .with("playerUUID", game.player2.uuid)
+            .with("position", game.player2.position)
+            .with("gameState", game.toJson())));
   }
 
   public void processTestRequest(GameMessage message) {
@@ -52,9 +64,10 @@ public class GameHandler {
 
   public void processMoveRequest(Move move) {
     Log.debug("GameHandler got the move: %s", move);
+    game.makeMove(move);
     broadcast(new WebSocketMessage("game", "move", Json.object()
         .with("move", move.toJson())
-        .with("gameState", getGameState(Position.UNDEFINED))));
+        .with("gameState", game.toJson())));
   }
 
   public void broadcast(WebSocketMessage message) {
@@ -70,16 +83,4 @@ public class GameHandler {
     }
   }
 
-  private Json getGameState(Position position) {
-    HumanPlayer player = game.getPlayer(position);
-
-    return Json.object()
-        .with("gameUUID", uuid)
-        .with("playerUUID", (player == null) ? null : player.uuid)
-        .with("position", position)
-        .with("currentTurn", game.currentTurn)
-        .with("counter", game.counter)
-        .with("player1", game.player1.toJson())
-        .with("player2", game.player2.toJson());
-  }
 }

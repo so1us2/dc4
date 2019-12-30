@@ -23,7 +23,13 @@ class App extends Component {
   startGame = (data) => {
     console.log("Received game start data: ");
     console.log(data);
-    this.setState({currentPage: "game", gameState: data.gameState});
+    this.setState({
+      currentPage: "game",
+      gameUUID: data.gameUUID,
+      playerUUID: data.playerUUID,
+      position: data.position,
+      gameState: data.gameState
+    });
   }
 
   loadPage = (page) => {
@@ -49,6 +55,9 @@ class App extends Component {
         return (
           <GamePageContainer
             gameState={this.state.gameState}
+            gameUUID={this.state.gameUUID}
+            playerUUID={this.state.playerUUID}
+            position={this.state.position}
             socket={this.socket}
           />);
       case "playBot":
