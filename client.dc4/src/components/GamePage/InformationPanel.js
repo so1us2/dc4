@@ -1,10 +1,7 @@
 import React, {Component} from "react";
 
 export default class InformationPanel extends Component {
-
   render() {
-    console.log("Rendering InformationPanel with gameState: ");
-    console.log(this.props.gameState);
     return (
       <div className="InformationPanel">
         <h1>Game Page</h1>

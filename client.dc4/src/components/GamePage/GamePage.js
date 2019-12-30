@@ -8,8 +8,6 @@ import "styles/GamePage.css";
 export default class GamePage extends Component {
 
   render() {
-    console.log("Rendering GamePage with gameState:");
-    console.log(this.props.gameState);
     return (
       <div className="GamePage">
         <InformationPanel gameState={this.props.gameState} container={this.props.container} />
