@@ -11,34 +11,28 @@ export default class TestPageContainer extends Component {
     this.gameUUID = "1e38af78-1b9f-4bae-923e-20661a0a3058";
     this.player1UUID = "f7038575-526a-4293-aa3e-0b5d8564a1f9";
     this.player2UUID = "353582ca-67e2-4f18-87ac-4591809d516a";
+
+    this.socket.listen("game", "reconnect", this.props.startGame);
+  }
+
+  reconnect = (playerUUID) => {
+    // The server will send back a game:reconnect message with the relevant data.
+    this.socket.send({
+      channel: "game",
+      command: "reconnect",
+      data: {
+        gameUUID: this.gameUUID,
+        playerUUID: playerUUID
+      }
+    });
   }
 
   reconnectPlayer1 = () => {
-    const gameStartData = {
-      gameUUID: this.gameUUID,
-      playerUUID: this.player1UUID,
-      position: "FIRST"
-    };
-    this.socket.send({
-      channel: "game",
-      command: "reconnect",
-      data: gameStartData
-    });
-    this.props.startGame(gameStartData);
+    this.reconnect(this.player1UUID);
   }
 
   reconnectPlayer2 = () => {
-    const gameStartData = {
-      gameUUID: this.gameUUID,
-      playerUUID: this.player2UUID,
-      position: "SECOND"
-    };
-    this.socket.send({
-      channel: "game",
-      command: "reconnect",
-      data: gameStartData
-    });
-    this.props.startGame(gameStartData);
+    this.reconnect(this.player2UUID);
   }
 
   render() {

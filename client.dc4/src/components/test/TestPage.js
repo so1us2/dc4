@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 
 import "styles/App.css";
+import "styles/test/TestPage.css"
 
 export default class TestPage extends Component {
 

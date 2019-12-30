@@ -41,8 +41,6 @@ export default class GamePanel extends Component {
   render() {
     return (
       <div className="GamePanel">
-        <div>x: {this.state.x}</div>
-        <div>y: {this.state.y}</div>
         <svg id="game-panel" viewBox="0 0 7 7" width="500px" height="500px" onMouseMove={this.onMouseMove} onMouseOut={this.onMouseOut}>
           <ConnectFourBoard />
           <Pieces gameState={this.props.gameState} />

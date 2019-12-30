@@ -8,10 +8,7 @@ export default class GamePageContainer extends Component {
     super(props);
     console.log("GamePageContainer constructor.  Props: ");
     console.log(props);
-    this.gameUUID = props.gameStartData.gameUUID;
-    this.playerUUID = props.gameStartData.playerUUID;
-    this.position = props.gameStartData.position;
-    this.state = {counter: 0};
+    this.state = {gameState: this.props.gameState};
     this.props.socket.listen("game", "testResponse", this.testResponseHandler);
   }
 
@@ -20,20 +17,41 @@ export default class GamePageContainer extends Component {
       channel: "game",
       command: "testRequest",
       data: {
-        gameUUID: this.gameUUID,
-        playerUUID: this.playerUUID,
+        gameUUID: this.props.gameState.gameUUID,
+        playerUUID: this.props.gameState.playerUUID,
         a: 42
       }
     });
-  };
+  }
+
+  getPlayerName = () => {
+    if (this.props.gameState.position === "FIRST") {
+      return (this.props.gameState.player1.name);
+    } else {
+      return (this.props.gameState.player2.name);
+    }
+  }
+
+  getOtherPlayerName = () => {
+    if (this.props.gameState.position === "FIRST") {
+      return (this.props.gameState.player2.name);
+    } else {
+      return (this.props.gameState.player1.name);
+    }
+  }
 
   testResponseHandler = (data) => {
-    this.setState({counter: data.counter});
+    this.setState({
+      gameState: {
+        ...this.state.gameState,
+        counter: data.counter
+      }
+    });
   }
 
   render() {
     return (
-      <GamePage container={this} position={this.position} counter={this.state.counter} gameState={{message: "hello world."}}/>
+      <GamePage container={this} gameState={this.state.gameState}/>
     );
   }
 }

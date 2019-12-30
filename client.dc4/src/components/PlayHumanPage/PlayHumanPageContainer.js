@@ -13,7 +13,7 @@ export default class HomePageContainer extends Component {
     };
     this.props.socket.listen("search", "token", this.getSearchToken);
     this.props.socket.listen("matchmaking", "accept", this.awaitAccept);
-    this.props.socket.listen("game", "start", this.startGame);
+    this.props.socket.listen("game", "start", this.props.startGame);
   }
 
   changeName = (newName) => {
@@ -48,8 +48,6 @@ export default class HomePageContainer extends Component {
     this.matchAcceptTransactionUUID = data.transactionUUID;
     return;
   };
-
-  startGame = this.props.startGame;
 
   acceptMatch = () => {
     console.log("Accept method called in PlayHumanPageContainer.");
@@ -87,8 +85,6 @@ export default class HomePageContainer extends Component {
     });
     this.setState({awaitingAccept: false});
   };
-
-  loadPage = this.props.loadPage;
 
   render () {
     return (

@@ -8,9 +8,11 @@ import "styles/GamePage.css";
 export default class GamePage extends Component {
 
   render() {
+    console.log("Rendering GamePage with gameState:");
+    console.log(this.props.gameState);
     return (
       <div className="GamePage">
-        <InformationPanel counter={this.props.counter} position={this.props.position} container={this.props.container} />
+        <InformationPanel gameState={this.props.gameState} container={this.props.container} />
         <GamePanel gameState={this.props.gameState}/>
       </div>
     );
