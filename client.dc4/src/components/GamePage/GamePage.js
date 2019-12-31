@@ -7,6 +7,10 @@ import "styles/GamePage.css";
 
 export default class GamePage extends Component {
 
+  constructor(props) {
+    this.state = {moveAnimationStatus: props.moveAnimationStatus};
+  }
+
   render() {
     let gameState = this.props.gameState;
     console.log("rendering GamePage with gameState:");
@@ -24,8 +28,7 @@ export default class GamePage extends Component {
           position={this.props.position}
           myTurn={gameState.currentTurn === this.props.position}
           sendMove={this.props.container.sendMove}
-          animateLastMove={this.props.animateLastMove}
-          onAnimationComplete={this.props.onAnimationComplete}
+          moveAnimationStatus={this.state.moveAnimationStatus}
         />
       </div>
     );

@@ -119,8 +119,6 @@ class Pieces extends Component {
   }
 
   render() {
-    console.log("Rendering Pieces with gameState:");
-    console.log(this.props.gameState);
     this.columnCounts = [0,0,0,0,0,0,0];
     this.expandedMoves = this.expand(this.props.gameState.moveHistory);
     let ret = [];
