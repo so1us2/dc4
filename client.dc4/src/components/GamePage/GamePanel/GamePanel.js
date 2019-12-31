@@ -5,6 +5,15 @@ import Pieces from "./Pieces";
 import Arrows from "./Arrows";
 
 export default class GamePanel extends Component {
+
+  renderArrows = () => {
+    if (this.props.myTurn) {
+      return ( <Arrows hoveredCol={this.props.hoveredCol} /> );
+    } else {
+      return null;
+    }
+  }
+
   render() {
     return (
       <div className="GamePanel">
@@ -18,8 +27,10 @@ export default class GamePanel extends Component {
             onClick={this.props.container.onClick}
         >
           <ConnectFourBoard />
-          <Pieces gameState={this.props.gameState} />
-          {(this.props.myTurn) ? <Arrows hoveredCol={this.props.hoveredCol} /> : null}
+          <Pieces
+            gameState={this.props.gameState}
+          />
+          this.renderArrows();
         </svg>
       </div>
     )
