@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+
 export default class Pieces extends Component {
 
   constructor(props) {
@@ -38,11 +40,16 @@ export default class Pieces extends Component {
         <GamePiece column={move.column} row={move.row} position={move.position} key={move.index} />
       );
     });
+    return ret;
   }
 
   renderLastMove = () => {
+    if (!this.lastMove) {
+      return;
+    }
+    const {column, row, position, index} = this.lastMove;
     return (
-      <AnimatingGamePiece column={move.column} row={move.row} position={move.position} key={move.index}  />
+      <AnimatingGamePiece column={column} row={row} position={position} key={index}  />
     )
   }
 
@@ -69,12 +76,12 @@ class GamePiece extends Component {
 class AnimatingGamePiece extends Component {
   render() {
     return (
-      <ReactCSSTransitionGroup
+      <CSSTransitionGroup
         transitionName="falling-piece"
         transitionAppear={true}
       >
         <div>Not yet implemented.</div>
-      </ReactCSSTransitionGroup>  
+      </CSSTransitionGroup>
     )
 
   }

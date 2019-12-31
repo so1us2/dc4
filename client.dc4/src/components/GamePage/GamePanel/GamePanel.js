@@ -30,7 +30,7 @@ export default class GamePanel extends Component {
           <Pieces
             gameState={this.props.gameState}
           />
-          this.renderArrows();
+          {this.renderArrows()}
         </svg>
       </div>
     )

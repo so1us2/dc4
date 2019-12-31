@@ -23,3 +23,7 @@
   stroke: none;
   fill: "black";
 }
+
+.falling-piece-appear:not(.falling-piece-active) {
+  cy: 0
+}
