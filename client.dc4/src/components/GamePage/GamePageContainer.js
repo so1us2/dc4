@@ -72,19 +72,19 @@ export default class GamePageContainer extends Component {
   moveHandler = (data) => {
     this.setState({
       gameState: data.gameState,
-      lastMove: data.move,
-      moveAnimationStatus: "START"
+      lastMove: data.move
     });
   }
 
   render() {
+    console.log("Rendering GamePageContainer.  Here is this:");
+    console.log(this);
     return (
       <GamePage
           container={this}
           gameState={this.state.gameState}
           position={this.props.position}
           lastMove={this.state.lastMove}
-          moveAnimationStatus={this.state.moveAnimationStatus}
       />
     );
   }
