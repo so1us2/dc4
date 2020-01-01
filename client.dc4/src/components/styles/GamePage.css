@@ -13,17 +13,3 @@
 .GamePanel {
   flex: 2 0 0;
 }
-
-.GamePanel svg circle[position="FIRST"] {
-  stroke: none;
-  fill: "red";
-}
-
-.GamePanel svg circle[position="SECOND"] {
-  stroke: none;
-  fill: "black";
-}
-
-.falling-piece-appear:not(.falling-piece-active) {
-  cy: 0
-}
