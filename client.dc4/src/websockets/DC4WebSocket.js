@@ -1,6 +1,6 @@
 export default class DC4WebSocket {
   constructor() {
-    this.socket = new WebSocket('ws://127.0.0.1:39142');
+    this.socket = new WebSocket('ws://127.0.0.1:42069');
     this.channels = {};
     this.socket.onmessage = this.handleMessage;
     this.transactor = new Transactor();
