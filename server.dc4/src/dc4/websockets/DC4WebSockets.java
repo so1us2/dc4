@@ -2,11 +2,15 @@ package dc4.websockets;
 
 import java.util.List;
 
+import javax.net.ssl.SSLContext;
+
 import com.google.common.collect.Lists;
 
+import bowser.SSLUtils;
 import bowser.websocket.ClientSocket;
 import bowser.websocket.WebSocketServer;
 import dc4.DC4Server;
+import ox.Config;
 import ox.Json;
 import ox.Log;
 import ox.Threads;
@@ -17,8 +21,16 @@ public class DC4WebSockets {
 
   private final List<WebSocketListener> listeners;
 
+  private final Config config = Config.load("dc4");
+
+  private final String serverType = config.get("serverType");
+
   public DC4WebSockets() {
+    boolean isProduction = serverType.equals("prod");
+    Log.debug("server isProduction? %s", isProduction);
+    SSLContext context = isProduction ? SSLUtils.createContext("jakemirra.com") : null;
     this.server = new WebSocketServer(DC4Server.WEBSOCKET_PORT);
+    this.server.ssl(context);
     this.listeners = Lists.newArrayList();
   }
 
@@ -37,7 +49,6 @@ public class DC4WebSockets {
   }
 
   private void delegateMessageToListeners(String s, DC4ClientSocket socket) {
-    Log.debug("Processing request from socket %s, message:\n %s", socket, s);
     if (!isValidMessage(s)) {
       Log.info("Received malformed websocket message: %s", s);
       return;

@@ -13,7 +13,7 @@ public class DC4Server {
 
   private static final int PORT = 1501;
 
-  public static final int WEBSOCKET_PORT = 39142;
+  public static final int WEBSOCKET_PORT = 42069; // nice.
 
   public void start() {
 
