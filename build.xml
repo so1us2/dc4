@@ -59,34 +59,6 @@
         <pathelement location="${ox.location}/lib/guava-27.0.1-jre.jar"/>
         <pathelement location="${ox.location}/lib/failureaccess-1.0.1.jar"/>
     </path>
-    <path id="run.DC4Server (2).classpath">
-        <path refid="dc4.classpath"/>
-        <path refid="bowser.classpath"/>
-        <pathelement location="${bowser.location}/lib/simple-5.1.5.jar"/>
-        <pathelement location="${bowser.location}/lib/jsass/commons-io-2.6.jar"/>
-        <pathelement location="${bowser.location}/lib/jsass/jsass-5.9.2.jar"/>
-        <path refid="ox.classpath"/>
-        <pathelement location="${ox.location}/lib/objenesis-2.1.jar"/>
-        <pathelement location="${ox.location}/lib/gson-2.8.2.jar"/>
-        <pathelement location="${ox.location}/lib/slf4j-api-1.7.2.jar"/>
-        <pathelement location="${ox.location}/lib/slf4j-simple-1.7.2.jar"/>
-        <pathelement location="${ox.location}/lib/guava-27.0.1-jre.jar"/>
-        <pathelement location="${ox.location}/lib/failureaccess-1.0.1.jar"/>
-    </path>
-    <path id="run.DC4Server (1).classpath">
-        <path refid="dc4.classpath"/>
-        <path refid="bowser.classpath"/>
-        <pathelement location="${bowser.location}/lib/simple-5.1.5.jar"/>
-        <pathelement location="${bowser.location}/lib/jsass/commons-io-2.6.jar"/>
-        <pathelement location="${bowser.location}/lib/jsass/jsass-5.9.2.jar"/>
-        <path refid="ox.classpath"/>
-        <pathelement location="${ox.location}/lib/objenesis-2.1.jar"/>
-        <pathelement location="${ox.location}/lib/gson-2.8.2.jar"/>
-        <pathelement location="${ox.location}/lib/slf4j-api-1.7.2.jar"/>
-        <pathelement location="${ox.location}/lib/slf4j-simple-1.7.2.jar"/>
-        <pathelement location="${ox.location}/lib/guava-27.0.1-jre.jar"/>
-        <pathelement location="${ox.location}/lib/failureaccess-1.0.1.jar"/>
-    </path>
     <target name="init">
         <mkdir dir="build/classes"/>
         <copy includeemptydirs="false" todir="build/classes">
@@ -121,18 +93,8 @@
         </java>
     </target>
     <target name="DC4Server">
-        <java classname="dc4.backend.api.DC4Server" failonerror="true" fork="yes">
-            <classpath refid="run.DC4Server.classpath"/>
-        </java>
-    </target>
-    <target name="DC4Server (2)">
         <java classname="dc4.DC4Server" failonerror="true" fork="yes">
-            <classpath refid="run.DC4Server (2).classpath"/>
-        </java>
-    </target>
-    <target name="DC4Server (1)">
-        <java classname="backend.api.DC4Server" failonerror="true" fork="yes">
-            <classpath refid="run.DC4Server (1).classpath"/>
+            <classpath refid="run.DC4Server.classpath"/>
         </java>
     </target>
 </project>
