@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="dc4">
+    <property environment="env"/>
+    <property name="bowser.location" value="../bowser"/>
+    <property name="ox.location" value="../ox"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="11"/>
+    <property name="source" value="11"/>
+    <path id="ox.classpath">
+        <pathelement location="${ox.location}/bin"/>
+        <pathelement location="${ox.location}/lib/objenesis-2.1.jar"/>
+        <pathelement location="${ox.location}/lib/gson-2.8.2.jar"/>
+        <pathelement location="${ox.location}/lib/slf4j-api-1.7.2.jar"/>
+        <pathelement location="${ox.location}/lib/slf4j-simple-1.7.2.jar"/>
+        <pathelement location="${ox.location}/lib/guava-27.0.1-jre.jar"/>
+        <pathelement location="${ox.location}/lib/failureaccess-1.0.1.jar"/>
+    </path>
+    <path id="bowser.classpath">
+        <pathelement location="${bowser.location}/bin"/>
+        <pathelement location="${bowser.location}/lib/simple-5.1.5.jar"/>
+        <pathelement location="${bowser.location}/lib/jsass/commons-io-2.6.jar"/>
+        <pathelement location="${bowser.location}/lib/jsass/jsass-5.9.2.jar"/>
+        <path refid="ox.classpath"/>
+    </path>
+    <path id="dc4.classpath">
+        <pathelement location="build/classes"/>
+        <path refid="bowser.classpath"/>
+        <path refid="ox.classpath"/>
+    </path>
+    <path id="run.GameServiceTest.classpath">
+        <path refid="dc4.classpath"/>
+        <path refid="bowser.classpath"/>
+        <pathelement location="${bowser.location}/lib/simple-5.1.5.jar"/>
+        <pathelement location="${bowser.location}/lib/jsass/commons-io-2.6.jar"/>
+        <pathelement location="${bowser.location}/lib/jsass/jsass-5.9.2.jar"/>
+        <path refid="ox.classpath"/>
+        <pathelement location="${ox.location}/lib/objenesis-2.1.jar"/>
+        <pathelement location="${ox.location}/lib/gson-2.8.2.jar"/>
+        <pathelement location="${ox.location}/lib/slf4j-api-1.7.2.jar"/>
+        <pathelement location="${ox.location}/lib/slf4j-simple-1.7.2.jar"/>
+        <pathelement location="${ox.location}/lib/guava-27.0.1-jre.jar"/>
+        <pathelement location="${ox.location}/lib/failureaccess-1.0.1.jar"/>
+    </path>
+    <path id="run.DC4Server.classpath">
+        <path refid="dc4.classpath"/>
+        <path refid="bowser.classpath"/>
+        <pathelement location="${bowser.location}/lib/simple-5.1.5.jar"/>
+        <pathelement location="${bowser.location}/lib/jsass/commons-io-2.6.jar"/>
+        <pathelement location="${bowser.location}/lib/jsass/jsass-5.9.2.jar"/>
+        <path refid="ox.classpath"/>
+        <pathelement location="${ox.location}/lib/objenesis-2.1.jar"/>
+        <pathelement location="${ox.location}/lib/gson-2.8.2.jar"/>
+        <pathelement location="${ox.location}/lib/slf4j-api-1.7.2.jar"/>
+        <pathelement location="${ox.location}/lib/slf4j-simple-1.7.2.jar"/>
+        <pathelement location="${ox.location}/lib/guava-27.0.1-jre.jar"/>
+        <pathelement location="${ox.location}/lib/failureaccess-1.0.1.jar"/>
+    </path>
+    <path id="run.DC4Server (2).classpath">
+        <path refid="dc4.classpath"/>
+        <path refid="bowser.classpath"/>
+        <pathelement location="${bowser.location}/lib/simple-5.1.5.jar"/>
+        <pathelement location="${bowser.location}/lib/jsass/commons-io-2.6.jar"/>
+        <pathelement location="${bowser.location}/lib/jsass/jsass-5.9.2.jar"/>
+        <path refid="ox.classpath"/>
+        <pathelement location="${ox.location}/lib/objenesis-2.1.jar"/>
+        <pathelement location="${ox.location}/lib/gson-2.8.2.jar"/>
+        <pathelement location="${ox.location}/lib/slf4j-api-1.7.2.jar"/>
+        <pathelement location="${ox.location}/lib/slf4j-simple-1.7.2.jar"/>
+        <pathelement location="${ox.location}/lib/guava-27.0.1-jre.jar"/>
+        <pathelement location="${ox.location}/lib/failureaccess-1.0.1.jar"/>
+    </path>
+    <path id="run.DC4Server (1).classpath">
+        <path refid="dc4.classpath"/>
+        <path refid="bowser.classpath"/>
+        <pathelement location="${bowser.location}/lib/simple-5.1.5.jar"/>
+        <pathelement location="${bowser.location}/lib/jsass/commons-io-2.6.jar"/>
+        <pathelement location="${bowser.location}/lib/jsass/jsass-5.9.2.jar"/>
+        <path refid="ox.classpath"/>
+        <pathelement location="${ox.location}/lib/objenesis-2.1.jar"/>
+        <pathelement location="${ox.location}/lib/gson-2.8.2.jar"/>
+        <pathelement location="${ox.location}/lib/slf4j-api-1.7.2.jar"/>
+        <pathelement location="${ox.location}/lib/slf4j-simple-1.7.2.jar"/>
+        <pathelement location="${ox.location}/lib/guava-27.0.1-jre.jar"/>
+        <pathelement location="${ox.location}/lib/failureaccess-1.0.1.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="build/classes"/>
+        <copy includeemptydirs="false" todir="build/classes">
+            <fileset dir="server.dc4/src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="build/classes"/>
+    </target>
+    <target depends="clean" name="cleanall">
+        <ant antfile="build.xml" dir="${ox.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${bowser.location}" inheritAll="false" target="clean"/>
+    </target>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects">
+        <ant antfile="build.xml" dir="${ox.location}" inheritAll="false" target="build-project"/>
+        <ant antfile="build.xml" dir="${bowser.location}" inheritAll="false" target="build-project"/>
+    </target>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="build/classes" includeantruntime="false" source="${source}" target="${target}">
+            <src path="server.dc4/src"/>
+            <classpath refid="dc4.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target name="GameServiceTest">
+        <java classname="test.dc4.service.GameServiceTest" failonerror="true" fork="yes">
+            <classpath refid="run.GameServiceTest.classpath"/>
+        </java>
+    </target>
+    <target name="DC4Server">
+        <java classname="dc4.backend.api.DC4Server" failonerror="true" fork="yes">
+            <classpath refid="run.DC4Server.classpath"/>
+        </java>
+    </target>
+    <target name="DC4Server (2)">
+        <java classname="dc4.DC4Server" failonerror="true" fork="yes">
+            <classpath refid="run.DC4Server (2).classpath"/>
+        </java>
+    </target>
+    <target name="DC4Server (1)">
+        <java classname="backend.api.DC4Server" failonerror="true" fork="yes">
+            <classpath refid="run.DC4Server (1).classpath"/>
+        </java>
+    </target>
+</project>
