@@ -1,6 +1,8 @@
+import Config from "../client.config.js";
+
 export default class DC4WebSocket {
   constructor() {
-    this.socket = new WebSocket('ws://127.0.0.1:42069');
+    this.socket = new WebSocket('ws://' + Config.websocketServerHost + ':' + Config.websocketServerSocket);
     this.channels = {};
     this.socket.onmessage = this.handleMessage;
     this.transactor = new Transactor();
